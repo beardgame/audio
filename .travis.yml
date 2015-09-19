@@ -1,0 +1,8 @@
+language: csharp
+solution: TomRijnbeek.Audio.sln
+
+mono:
+ - latest
+
+script:
+  - xbuild /p:Configuration=Release TomRijnbeek.Audio.sln
