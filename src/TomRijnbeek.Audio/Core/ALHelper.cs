@@ -48,13 +48,30 @@ namespace TomRijnbeek.Audio
         /// Calls a function and then checks for an OpenAL error.
         /// </summary>
         /// <typeparam name="TParam1">The type of the first parameter of the function.</typeparam>
-        /// <typeparam name="TParam2">The type of the first parameter of the function.</typeparam>
+        /// <typeparam name="TParam2">The type of the second parameter of the function.</typeparam>
         /// <param name="function">The function to be called.</param>
         /// <param name="p1">The first parameter to be passed to the function.</param>
         /// <param name="p2">The second parameter to be passed to the function.</param>
         public static void Call<TParam1, TParam2>(Action<TParam1, TParam2> function, TParam1 p1, TParam2 p2)
         {
             function(p1, p2);
+            ALHelper.Check();
+        }
+
+        /// <summary>
+        /// Calls a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of the first parameter of the function.</typeparam>
+        /// <typeparam name="TParam2">The type of the second parameter of the function.</typeparam>
+        /// <typeparam name="TParam3">The type of the third parameter of the function.</typeparam>
+        /// <param name="function">The function to be called.</param>
+        /// <param name="p1">The first parameter to be passed to the function.</param>
+        /// <param name="p2">The second parameter to be passed to the function.</param>
+        /// <param name="p3">The third parameter to be passed to the function.</param>
+        public static void Call<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> function, TParam1 p1,
+            TParam2 p2, TParam3 p3)
+        {
+            function(p1, p2, p3);
             ALHelper.Check();
         }
 
