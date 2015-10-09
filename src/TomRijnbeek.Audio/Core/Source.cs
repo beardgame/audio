@@ -126,6 +126,7 @@ namespace TomRijnbeek.Audio
         }
         #endregion
 
+        #region Constructor
         /// <summary>
         /// Creates a new OpenAL source.
         /// </summary>
@@ -136,8 +137,43 @@ namespace TomRijnbeek.Audio
             this.gain = 1;
             this.pitch = 1;
         }
+        #endregion
 
-        // TODO: buffers
+        #region Buffers
+        private void queueBuffersRaw(int bufferLength, int[] bufferIDs)
+        {
+            ALHelper.Call(AL.SourceQueueBuffers, this.handle, bufferLength, bufferIDs);
+        }
+
+        /// <summary>
+        /// Queues a sound buffer to be played by this source.
+        /// </summary>
+        /// <param name="buffer"></param>
+        public void QueueBuffer(SoundBuffer buffer)
+        {
+            var handles = (int[]) buffer;
+            this.queueBuffersRaw(handles.Length, handles);
+        }
+
+        /// <summary>
+        /// Removes all the buffers from the source.
+        /// </summary>
+        public void UnqueueBuffers()
+        {
+            if (this.QueuedBuffers == 0)
+                return;
+
+            ALHelper.Call(() => AL.SourceUnqueueBuffers(this.handle, this.QueuedBuffers));
+        }
+
+        /// <summary>
+        /// Removes all the processed buffers from the source.
+        /// </summary>
+        public void UnqueueProcessedBuffers()
+        {
+            ALHelper.Call(() => AL.SourceUnqueueBuffers(this.handle, this.ProcessedBuffers));
+        }
+        #endregion
 
         #region Controls
         /// <summary>
@@ -173,6 +209,7 @@ namespace TomRijnbeek.Audio
         }
         #endregion
 
+        #region IDisposable implementation
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -187,7 +224,9 @@ namespace TomRijnbeek.Audio
             ALHelper.Call(AL.DeleteSource, this.handle);
             this.Disposed = true;
         }
+        #endregion
 
+        #region Operators
         /// <summary>
         /// Casts the source to an integer.
         /// </summary>
@@ -197,5 +236,6 @@ namespace TomRijnbeek.Audio
         {
             return source.handle;
         }
+        #endregion
     }
 }
