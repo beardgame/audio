@@ -13,7 +13,7 @@ namespace TomRijnbeek.Audio
 
         #region State
         /// <summary>
-        /// True if the source is disposed and thus no longer available.
+        /// Disposal state of this source.
         /// </summary>
         public bool Disposed { get; private set; }
 
