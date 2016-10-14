@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomRijnbeek.Audio", "src\TomRijnbeek.Audio\TomRijnbeek.Audio.csproj", "{DA11432A-23EB-4719-ADBB-137C7441AE47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomRijnbeek.Audio.Tests", "tests\TomRijnbeek.Audio.Tests.csproj", "{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DA11432A-23EB-4719-ADBB-137C7441AE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA11432A-23EB-4719-ADBB-137C7441AE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA11432A-23EB-4719-ADBB-137C7441AE47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
