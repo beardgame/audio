@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio
-{
+namespace TomRijnbeek.Audio {
     /// <summary>
     /// Class representing sound data that can be loaded into OpenAL sound buffers.
     /// </summary>
-    public class SoundBufferData
-    {
+    public class SoundBufferData {
         #region Members
         private readonly IList<short[]> buffers;
         private readonly ALFormat format;
@@ -29,8 +27,7 @@ namespace TomRijnbeek.Audio
         /// <param name="buffers">The content of the buffers.</param>
         /// <param name="format">The format the buffers are in.</param>
         /// <param name="sampleRate">The samplerate of the buffers.</param>
-        public SoundBufferData(IList<short[]> buffers, ALFormat format, int sampleRate)
-        {
+        public SoundBufferData(IList<short[]> buffers, ALFormat format, int sampleRate) {
             this.buffers = buffers;
             this.format = format;
             this.sampleRate = sampleRate;
@@ -43,8 +40,7 @@ namespace TomRijnbeek.Audio
         /// </summary>
         /// <param name="file">The file to load the data from.</param>
         /// <returns>A SoundBufferData object containing the data from the specified file.</returns>
-        public static SoundBufferData FromWav(string file)
-        {
+        public static SoundBufferData FromWav(string file) {
             return SoundBufferData.FromWav(File.OpenRead(file));
         }
 
@@ -53,10 +49,8 @@ namespace TomRijnbeek.Audio
         /// </summary>
         /// <param name="file">The file to load the data from.</param>
         /// <returns>A SoundBufferData object containing the data from the specified file.</returns>
-        public static SoundBufferData FromWav(Stream file)
-        {
-            using (var reader = new BinaryReader(file))
-            {
+        public static SoundBufferData FromWav(Stream file) {
+            using (var reader = new BinaryReader(file)) {
                 // RIFF header
                 var signature = new string(reader.ReadChars(4));
                 if (signature != "RIFF")
@@ -99,8 +93,7 @@ namespace TomRijnbeek.Audio
                 int i = 0;
                 const int bufferSize = 16384;
 
-                while ((count = (Math.Min(data.Length, (i + 1) * bufferSize * 2) - i * bufferSize * 2) / 2) > 0)
-                {
+                while ((count = (Math.Min(data.Length, (i + 1) * bufferSize * 2) - i * bufferSize * 2) / 2) > 0) {
                     var buffer = new short[bufferSize];
                     SoundBufferData.convertBuffer(data, buffer, count, i * bufferSize * 2);
                     buffers.Add(buffer);
@@ -113,16 +106,13 @@ namespace TomRijnbeek.Audio
         #endregion
 
         #region Static helper functions
-        private static void convertBuffer(byte[] inBuffer, short[] outBuffer, int length, int inOffset = 0)
-        {
+        private static void convertBuffer(byte[] inBuffer, short[] outBuffer, int length, int inOffset = 0) {
             for (int i = 0; i < length; i++)
                 outBuffer[i] = BitConverter.ToInt16(inBuffer, inOffset + 2 * i);
         }
 
-        private static ALFormat getSoundFormat(int channels, int bits)
-        {
-            switch (channels)
-            {
+        private static ALFormat getSoundFormat(int channels, int bits) {
+            switch (channels) {
                 case 1: return bits == 8 ? ALFormat.Mono8 : ALFormat.Mono16;
                 case 2: return bits == 8 ? ALFormat.Stereo8 : ALFormat.Stereo16;
                 default: throw new NotSupportedException("The specified sound format is not supported.");

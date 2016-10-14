@@ -1,13 +1,11 @@
 ﻿using System;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio
-{
+namespace TomRijnbeek.Audio {
     /// <summary>
     /// Class representing a group of OpenAL audio buffers.
     /// </summary>
-    public class SoundBuffer : IDisposable
-    {
+    public class SoundBuffer : IDisposable {
         /// <summary>
         /// List of OpenAL buffer handles.
         /// </summary>
@@ -25,8 +23,7 @@ namespace TomRijnbeek.Audio
         /// Generates a new sound buffer of the given size.
         /// </summary>
         /// <param name="amount">The amount of buffers to reserve.</param>
-        public SoundBuffer(int amount)
-        {
+        public SoundBuffer(int amount) {
             this.handles = ALHelper.Eval(AL.GenBuffers, amount);
         }
 
@@ -35,28 +32,25 @@ namespace TomRijnbeek.Audio
         /// </summary>
         /// <param name="data">The data to load the buffers with.</param>
         public SoundBuffer(SoundBufferData data)
-            : this(data.Buffers.Count)
-        {
+            : this(data.Buffers.Count) {
             this.FillBuffer(data);
         }
         #endregion
 
         #region Buffer filling
-        private void fillBufferRaw(int index, short[] data, ALFormat format, int sampleRate)
-        {
+        private void fillBufferRaw(int index, short[] data, ALFormat format, int sampleRate) {
             if (index < 0 || index >= this.handles.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             ALHelper.Call(
-                () => AL.BufferData(this.handles[index], format, data, data.Length * sizeof (short), sampleRate));
+                () => AL.BufferData(this.handles[index], format, data, data.Length * sizeof(short), sampleRate));
         }
 
         /// <summary>
         /// Fills the buffer with new data.
         /// </summary>
         /// <param name="data">The new content of the buffers.</param>
-        public void FillBuffer(SoundBufferData data)
-        {
+        public void FillBuffer(SoundBufferData data) {
             this.FillBuffer(0, data);
         }
 
@@ -65,8 +59,7 @@ namespace TomRijnbeek.Audio
         /// </summary>
         /// <param name="index">The starting index from where to fill the buffer.</param>
         /// <param name="data">The new content of the buffers.</param>
-        public void FillBuffer(int index, SoundBufferData data)
-        {
+        public void FillBuffer(int index, SoundBufferData data) {
             if (index < 0 || index >= this.handles.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
             if (data.Buffers.Count > this.handles.Length)
@@ -81,8 +74,7 @@ namespace TomRijnbeek.Audio
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
-        {
+        public void Dispose() {
             if (this.Disposed)
                 return;
 
@@ -98,8 +90,7 @@ namespace TomRijnbeek.Audio
         /// </summary>
         /// <param name="buffer">The buffer that should be casted.</param>
         /// <returns>The OpenAL handles of the buffers.</returns>
-        static public implicit operator int[] (SoundBuffer buffer)
-        {
+        static public implicit operator int[] (SoundBuffer buffer) {
             return buffer.handles;
         }
         #endregion

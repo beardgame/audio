@@ -1,7 +1,6 @@
 ﻿using OpenTK;
 
-namespace TomRijnbeek.Audio
-{
+namespace TomRijnbeek.Audio {
     /// <summary>
     /// This class represents a listener.
     /// </summary>
@@ -12,8 +11,7 @@ namespace TomRijnbeek.Audio
     /// as updating the currently active listener, so we leave that up to
     /// the audio manager.
     /// </remarks>
-    public class Listener : IListener
-    {
+    public class Listener : IListener {
         /// <summary>
         /// The position of the listener.
         /// </summary>
@@ -42,8 +40,7 @@ namespace TomRijnbeek.Audio
         /// <summary>
         /// Creates a new listener with default parameters.
         /// </summary>
-        public Listener()
-        {
+        public Listener() {
             this.Position = Vector3.Zero;
             this.Velocity = Vector3.Zero;
             this.At = -Vector3.UnitZ;
@@ -56,8 +53,7 @@ namespace TomRijnbeek.Audio
         /// <param name="quaternion">The rotation of the listener.</param>
         /// <param name="forward">The (unit) direction that is considered "forward". Default OpenAL assumes -z direction.</param>
         /// <param name="up">The (unit) direction that is considered "up". Default OpenAL assumes +y direction.</param>
-        public void SetOrientationFromQuaternion(Quaternion quaternion, Vector3 forward, Vector3 up)
-        {
+        public void SetOrientationFromQuaternion(Quaternion quaternion, Vector3 forward, Vector3 up) {
             this.At = Vector3.Transform(forward, quaternion);
             this.Up = Vector3.Transform(up, quaternion);
         }

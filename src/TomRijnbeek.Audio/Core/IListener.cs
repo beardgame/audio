@@ -1,13 +1,11 @@
 ﻿using OpenTK;
 
-namespace TomRijnbeek.Audio
-{
+namespace TomRijnbeek.Audio {
     /// <summary>
     /// A listener interface.
     /// Every object implementing this interface can be used as audio listener in OpenAL.
     /// </summary>
-    public interface IListener
-    {
+    public interface IListener {
         /// <summary>
         /// The position of the listener.
         /// </summary>
