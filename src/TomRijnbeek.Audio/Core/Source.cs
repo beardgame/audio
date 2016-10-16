@@ -7,6 +7,7 @@ namespace TomRijnbeek.Audio {
     /// Class representing an OpenAL audio source.
     /// </summary>
     public class Source : IDisposable {
+        private readonly SourceService svc;
         private readonly int handle;
 
         #region State
@@ -18,31 +19,17 @@ namespace TomRijnbeek.Audio {
         /// <summary>
         /// The current state of this source.
         /// </summary>
-        public ALSourceState State => ALHelper.Eval(AL.GetSourceState, this.handle);
+        public ALSourceState State => this.svc.GetState(this);
 
         /// <summary>
         /// The amount of buffers the source has already played.
         /// </summary>
-        public int ProcessedBuffers {
-            get {
-                int processedBuffers;
-                AL.GetSource(this.handle, ALGetSourcei.BuffersProcessed, out processedBuffers);
-                ALHelper.Check();
-                return processedBuffers;
-            }
-        }
+        public int ProcessedBuffers => this.svc.GetProperty(this, ALGetSourcei.BuffersProcessed);
 
         /// <summary>
         /// The total amount of buffers to source has queued to play.
         /// </summary>
-        public int QueuedBuffers {
-            get {
-                int queuedBuffers;
-                AL.GetSource(this.handle, ALGetSourcei.BuffersQueued, out queuedBuffers);
-                ALHelper.Check();
-                return queuedBuffers;
-            }
-        }
+        public int QueuedBuffers => this.svc.GetProperty(this, ALGetSourcei.BuffersQueued);
 
         /// <summary>
         /// Whether the source is finished playing all queued buffers.
@@ -60,9 +47,7 @@ namespace TomRijnbeek.Audio {
         /// </summary>
         public float Gain {
             get { return this.gain; }
-            set {
-                ALHelper.Call(AL.Source, this.handle, ALSourcef.Gain, this.gain = value);
-            }
+            set { this.svc.SetProperty(this, ALSourcef.Gain, this.gain = value); }
         }
 
         /// <summary>
@@ -70,9 +55,7 @@ namespace TomRijnbeek.Audio {
         /// </summary>
         public float Pitch {
             get { return this.pitch; }
-            set {
-                ALHelper.Call(AL.Source, this.handle, ALSourcef.Pitch, this.pitch = value);
-            }
+            set { this.svc.SetProperty(this, ALSourcef.Pitch, this.pitch = value); }
         }
 
         /// <summary>
@@ -80,9 +63,7 @@ namespace TomRijnbeek.Audio {
         /// </summary>
         public bool Looping {
             get { return this.looping; }
-            set {
-                ALHelper.Call(AL.Source, this.handle, ALSourceb.Looping, this.looping = value);
-            }
+            set { this.svc.SetProperty(this, ALSourceb.Looping, this.looping = value); }
         }
 
         /// <summary>
@@ -91,10 +72,7 @@ namespace TomRijnbeek.Audio {
         /// <remarks>With the default listener, OpenAL uses a right hand coordinate system, with x pointing right, y pointing up, and z pointing towards the viewer.</remarks>
         public Vector3 Position {
             get { return this.position; }
-            set {
-                this.position = value;
-                ALHelper.Call(() => AL.Source(this, ALSource3f.Position, ref this.position));
-            }
+            set { this.svc.SetProperty(this, ALSource3f.Position, this.position = value); }
         }
 
         /// <summary>
@@ -103,10 +81,7 @@ namespace TomRijnbeek.Audio {
         /// <remarks>With the default listener, OpenAL uses a right hand coordinate system, with x pointing right, y pointing up, and z pointing towards the viewer.</remarks>
         public Vector3 Velocity {
             get { return this.velocity; }
-            set {
-                this.velocity = value;
-                ALHelper.Call(() => AL.Source(this, ALSource3f.Velocity, ref this.velocity));
-            }
+            set { this.svc.SetProperty(this, ALSource3f.Position, this.velocity = value); }
         }
         #endregion
 
@@ -115,7 +90,8 @@ namespace TomRijnbeek.Audio {
         /// Creates a new OpenAL source.
         /// </summary>
         public Source() {
-            this.handle = ALHelper.Eval(AL.GenSource);
+            this.svc = SourceService.Instance;
+            this.handle = this.svc.Generate();
 
             this.gain = 1;
             this.pitch = 1;
@@ -124,7 +100,7 @@ namespace TomRijnbeek.Audio {
 
         #region Buffers
         private void queueBuffersRaw(int bufferLength, int[] bufferIDs) {
-            ALHelper.Call(AL.SourceQueueBuffers, this.handle, bufferLength, bufferIDs);
+            this.svc.QueueBuffers(this, bufferLength, bufferIDs);
         }
 
         /// <summary>
@@ -143,14 +119,14 @@ namespace TomRijnbeek.Audio {
             if (this.QueuedBuffers == 0)
                 return;
 
-            ALHelper.Call(() => AL.SourceUnqueueBuffers(this.handle, this.QueuedBuffers));
+            this.svc.UnqueueBuffers(this, this.QueuedBuffers);
         }
 
         /// <summary>
         /// Removes all the processed buffers from the source.
         /// </summary>
         public void UnqueueProcessedBuffers() {
-            ALHelper.Call(() => AL.SourceUnqueueBuffers(this.handle, this.ProcessedBuffers));
+            this.svc.UnqueueBuffers(this, this.ProcessedBuffers);
         }
         #endregion
 
@@ -158,30 +134,22 @@ namespace TomRijnbeek.Audio {
         /// <summary>
         /// Starts playing the source.
         /// </summary>
-        public void Play() {
-            ALHelper.Call(AL.SourcePlay, this.handle);
-        }
+        public void Play() => this.svc.Play(this);
 
         /// <summary>
         /// Pauses playing the source.
         /// </summary>
-        public void Pause() {
-            ALHelper.Call(AL.SourcePause, this.handle);
-        }
+        public void Pause() => this.svc.Pause(this);
 
         /// <summary>
         /// Stops playing the source.
         /// </summary>
-        public void Stop() {
-            ALHelper.Call(AL.SourceStop, this.handle);
-        }
+        public void Stop() => this.svc.Stop(this);
 
         /// <summary>
         /// Rewinds the source.
         /// </summary>
-        public void Rewind() {
-            ALHelper.Call(AL.SourceRewind, this.handle);
-        }
+        public void Rewind() => this.svc.Rewind(this);
         #endregion
 
         #region IDisposable implementation
@@ -195,7 +163,7 @@ namespace TomRijnbeek.Audio {
             if (this.State != ALSourceState.Stopped)
                 this.Stop();
 
-            ALHelper.Call(AL.DeleteSource, this.handle);
+            this.svc.Delete(this);
             this.Disposed = true;
         }
         #endregion

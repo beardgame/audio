@@ -41,7 +41,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ALHelper.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\Listener.cs" />
     <Compile Include="Core\SoundBuffer.cs" />
@@ -52,10 +51,17 @@
     <Compile Include="Core\SingleListener.cs" />
     <Compile Include="Core\AudioContext.cs" />
     <Compile Include="Core\AudioConfig.cs" />
+    <Compile Include="Core\services\ListenerService.cs" />
+    <Compile Include="Core\services\AudioService.cs" />
+    <Compile Include="Core\services\SourceService.cs" />
+    <Compile Include="Core\services\BufferService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

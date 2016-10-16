@@ -2,9 +2,17 @@
 using System;
 using Xunit;
 
-// TODO: tests are currently disabled due to the need for an AL wrapper for mocking
+// TODO: these tests are disabled
 namespace TomRijnbeek.Audio.Tests {
     public class SingleListenerTest {
+        private readonly Mock<ListenerService> svcMock;
+
+        public SingleListenerTest() {
+            AudioContext.InitializeForTest();
+            this.svcMock = new Mock<ListenerService>();
+            ListenerService.SetTestInstance(this.svcMock.Object);
+        }
+
         //[Fact]
         //public void RegistersListener() {
         //    var listener = new SingleListener();

@@ -40,36 +40,36 @@ namespace TomRijnbeek.Audio {
         }
 
         public static Vector3 Position {
-            get { return AudioContext.Instance.GetListener(ALListener3f.Position); }
-            set { AudioContext.Instance.Listener(ALListener3f.Position, value); }
+            get { return ListenerService.Instance.GetProperty(ALListener3f.Position); }
+            set { ListenerService.Instance.SetProperty(ALListener3f.Position, value); }
         }
 
         public static Vector3 Velocity {
-            get { return AudioContext.Instance.GetListener(ALListener3f.Velocity); }
-            set { AudioContext.Instance.Listener(ALListener3f.Velocity, value); }
+            get { return ListenerService.Instance.GetProperty(ALListener3f.Velocity); }
+            set { ListenerService.Instance.SetProperty(ALListener3f.Velocity, value); }
         }
 
         public static float Gain {
-            get { return AudioContext.Instance.GetListener(ALListenerf.Gain); }
-            set { AudioContext.Instance.Listener(ALListenerf.Gain, value); }
+            get { return ListenerService.Instance.GetProperty(ALListenerf.Gain); }
+            set { ListenerService.Instance.SetProperty(ALListenerf.Gain, value); }
         }
 
         public static Vector3 At {
             get {
                 Vector3 at, up;
-                AudioContext.Instance.GetListener(ALListenerfv.Orientation, out at, out up);
+                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out at, out up);
                 return at;
             }
-            set { AudioContext.Instance.Listener(ALListenerfv.Orientation, value, Up); }
+            set { ListenerService.Instance.SetProperty(ALListenerfv.Orientation, value, Up); }
         }
 
         public static Vector3 Up {
             get {
                 Vector3 at, up;
-                AudioContext.Instance.GetListener(ALListenerfv.Orientation, out at, out up);
+                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out at, out up);
                 return up;
             }
-            set { AudioContext.Instance.Listener(ALListenerfv.Orientation, At, value); }
+            set { ListenerService.Instance.SetProperty(ALListenerfv.Orientation, At, value); }
         }
     }
 }

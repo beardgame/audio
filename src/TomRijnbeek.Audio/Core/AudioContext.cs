@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using OpenTK;
 using OpenTK.Audio.OpenAL;
 
 using ALContext = OpenTK.Audio.AudioContext;
@@ -19,7 +18,7 @@ namespace TomRijnbeek.Audio {
         /// Returns an exception if 
         /// </summary>
         /// <value>The instance.</value>
-        public static AudioContext Instance { 
+        public static AudioContext Instance {
             get {
                 if (instance == null) {
                     throw new NullReferenceException(
@@ -47,6 +46,12 @@ namespace TomRijnbeek.Audio {
 
             instance = new AudioContext(config);
         }
+
+        internal static void InitializeForTest() {
+            if (instance == null) {
+                instance = new AudioContext(AudioConfig.Default, true);
+            }
+        }
         #endregion
 
         private readonly AudioConfig config;
@@ -62,43 +67,14 @@ namespace TomRijnbeek.Audio {
             }
         }
 
-        private AudioContext(AudioConfig config) {
+        private AudioContext(AudioConfig config) : this(config, false) { }
+
+        private AudioContext(AudioConfig config, bool forTest) {
             this.config = config;
-            this.ctx = new ALContext();
+            if (!forTest) {
+                this.ctx = new ALContext();
+            }
         }
-
-        #region OpenAL interface
-        public float GetListener(ALListenerf property) {
-            float value;
-            AL.GetListener(property, out value);
-            CheckErrors();
-            return value;
-        }
-
-        public Vector3 GetListener(ALListener3f property) {
-            Vector3 value;
-            AL.GetListener(property, out value);
-            CheckErrors();
-            return value;
-        }
-
-        public void GetListener(ALListenerfv property, out Vector3 at, out Vector3 up) {
-            AL.GetListener(property, out at, out up);
-            CheckErrors();
-        }
-
-        public void Listener(ALListenerf property, float value) {
-            Call(() => AL.Listener(property, value));
-        }
-
-        public void Listener(ALListener3f property, Vector3 value) {
-            Call(() => AL.Listener(property, ref value));
-        }
-
-        public void Listener(ALListenerfv property, Vector3 at, Vector3 up) {
-            Call(() => AL.Listener(property, ref at, ref up));
-        }
-        #endregion
 
         #region Helpers
         /// <summary>
@@ -124,6 +100,89 @@ namespace TomRijnbeek.Audio {
         }
 
         /// <summary>
+        /// Calls a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be called.</param>
+        /// <param name="parameter">The parameter to be passed to the function.</param>
+        /// <typeparam name="TParameter">The type of the parameter of the function.</typeparam>
+        public void Call<TParameter>(Action<TParameter> function, TParameter parameter) {
+            function(parameter);
+            CheckErrors();
+        }
+
+        /// <summary>
+        /// Calls a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be called.</param>
+        /// <param name="p1">The first parameter to be passed to the function.</param>
+        /// <param name="p2">The second parameter to be passed to the function.</param>
+        /// <typeparam name="TParam1">The type of the first parameter of the function.</typeparam>
+        /// <typeparam name="TParam2">The type of the second parameter of the function.</typeparam>
+        public void Call<TParam1, TParam2>(
+                Action<TParam1, TParam2> function,
+                TParam1 p1, TParam2 p2) {
+            function(p1, p2);
+            CheckErrors();
+        }
+
+        /// <summary>
+        /// Calls a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be called.</param>
+        /// <param name="p1">The first parameter to be passed to the function.</param>
+        /// <param name="p2">The second parameter to be passed to the function.</param>
+        /// <param name="p3">The third parameter to be passed to the function.</param>
+        /// <typeparam name="TParam1">The type of the first parameter of the function.</typeparam>
+        /// <typeparam name="TParam2">The type of the second parameter of the function.</typeparam>
+        /// <typeparam name="TParam3">The type of the third parameter of the function.</typeparam>
+        public void Call<TParam1, TParam2, TParam3>(
+                Action<TParam1, TParam2, TParam3> function,
+                TParam1 p1, TParam2 p2, TParam3 p3) {
+            function(p1, p2, p3);
+            CheckErrors();
+        }
+
+        /// <summary>
+        /// Calls a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be called.</param>
+        /// <param name="p1">The first parameter to be passed to the function.</param>
+        /// <param name="p2">The second parameter to be passed to the function.</param>
+        /// <param name="p3">The third parameter to be passed to the function.</param>
+        /// <param name="p4">The fourth parameter to be passed to the function.</param>
+        /// <typeparam name="TParam1">The type of the first parameter of the function.</typeparam>
+        /// <typeparam name="TParam2">The type of the second parameter of the function.</typeparam>
+        /// <typeparam name="TParam3">The type of the third parameter of the function.</typeparam>
+        /// <typeparam name="TParam4">The type of the fourth parameter of the function.</typeparam>
+        public void Call<TParam1, TParam2, TParam3, TParam4>(
+                Action<TParam1, TParam2, TParam3, TParam4> function,
+                TParam1 p1, TParam2 p2, TParam3 p3, TParam4 p4) {
+            function(p1, p2, p3, p4);
+            CheckErrors();
+        }
+
+        /// <summary>
+        /// Calls a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be called.</param>
+        /// <param name="p1">The first parameter to be passed to the function.</param>
+        /// <param name="p2">The second parameter to be passed to the function.</param>
+        /// <param name="p3">The third parameter to be passed to the function.</param>
+        /// <param name="p4">The fourth parameter to be passed to the function.</param>
+        /// <param name="p5">The fifth parameter to be passed to the function.</param>
+        /// <typeparam name="TParam1">The type of the first parameter of the function.</typeparam>
+        /// <typeparam name="TParam2">The type of the second parameter of the function.</typeparam>
+        /// <typeparam name="TParam3">The type of the third parameter of the function.</typeparam>
+        /// <typeparam name="TParam4">The type of the fourth parameter of the function.</typeparam>
+        /// <typeparam name="TParam5">The type of the fifth parameter of the function.</typeparam>
+        public void Call<TParam1, TParam2, TParam3, TParam4, TParam5>(
+                Action<TParam1, TParam2, TParam3, TParam4, TParam5> function,
+                TParam1 p1, TParam2 p2, TParam3 p3, TParam4 p4, TParam5 p5) {
+            function(p1, p2, p3, p4, p5);
+            CheckErrors();
+        }
+
+        /// <summary>
         /// Evaluates a function and then checks for an OpenAL error.
         /// </summary>
         /// <param name="function">The function to be evaluated.</param>
@@ -134,14 +193,34 @@ namespace TomRijnbeek.Audio {
             return val;
         }
 
-        public delegate void GetPropertyDelegate<TEnum, TReturn>(TEnum property, out TReturn value);
-
-        public TReturn GetProperty<TEnum, TReturn>(
-                GetPropertyDelegate<TEnum, TReturn> getter, TEnum property) {
-            var returnValue = default(TReturn);
-            getter(property, out returnValue);
+        /// <summary>
+        /// Evaluates a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be evaluated.</param>
+        /// <param name="parameter">The type of the parameter of the function.</param>
+        /// <typeparam name="TParameter">The type of the parameter of the function.</typeparam>
+        /// <typeparam name="TReturn">The type of the return value.</typeparam>
+        public TReturn Eval<TParameter, TReturn>(Func<TParameter, TReturn> function, TParameter parameter) {
+            var val = function(parameter);
             CheckErrors();
-            return returnValue;
+            return val;
+        }
+
+        /// <summary>
+        /// Evaluates a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be evaluated.</param>
+        /// <param name="p1">The first parameter to be passed to the function.</param>
+        /// <param name="p2">The second parameter to be passed to the function.</param>
+        /// <typeparam name="TParam1">The type of the first parameter of the function.</typeparam>
+        /// <typeparam name="TParam2">The type of the second parameter of the function.</typeparam>
+        /// <typeparam name="TReturn">The type of the return value.</typeparam>
+        public TReturn Eval<TParam1, TParam2, TReturn>(
+                Func<TParam1, TParam2, TReturn> function,
+                TParam1 p1, TParam2 p2) {
+            var val = function(p1, p2);
+            CheckErrors();
+            return val;
         }
         #endregion
 
