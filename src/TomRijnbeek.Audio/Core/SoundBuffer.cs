@@ -6,6 +6,8 @@ namespace TomRijnbeek.Audio {
     /// Class representing a group of OpenAL audio buffers.
     /// </summary>
     public class SoundBuffer : IDisposable {
+        private readonly BufferService svc;
+
         /// <summary>
         /// List of OpenAL buffer handles.
         /// </summary>
@@ -22,9 +24,10 @@ namespace TomRijnbeek.Audio {
         /// <summary>
         /// Generates a new sound buffer of the given size.
         /// </summary>
-        /// <param name="amount">The amount of buffers to reserve.</param>
-        public SoundBuffer(int amount) {
-            this.handles = ALHelper.Eval(AL.GenBuffers, amount);
+        /// <param name="n">The number of buffers to reserve.</param>
+        public SoundBuffer(int n) {
+            this.svc = BufferService.Instance;
+            this.handles = this.svc.Generate(n);
         }
 
         /// <summary>
@@ -42,8 +45,7 @@ namespace TomRijnbeek.Audio {
             if (index < 0 || index >= this.handles.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            ALHelper.Call(
-                () => AL.BufferData(this.handles[index], format, data, data.Length * sizeof(short), sampleRate));
+            this.svc.Fill(this[index], format, data, sampleRate);
         }
 
         /// <summary>
@@ -78,7 +80,7 @@ namespace TomRijnbeek.Audio {
             if (this.Disposed)
                 return;
 
-            ALHelper.Call(AL.DeleteBuffers, this.handles);
+            this.svc.Delete(this);
 
             this.Disposed = true;
         }
@@ -93,6 +95,12 @@ namespace TomRijnbeek.Audio {
         static public implicit operator int[] (SoundBuffer buffer) {
             return buffer.handles;
         }
+
+        /// <summary>
+        /// Gets the <see cref="T:TomRijnbeek.Audio.SoundBuffer"/> handle at the specified index.
+        /// </summary>
+        /// <param name="i">The index.</param>
+        public int this[int i] => this.handles[i];
         #endregion
     }
 }
