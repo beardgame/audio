@@ -120,7 +120,7 @@ namespace TomRijnbeek.Audio {
         /// <param name="function">The function to be called.</param>
         public void Call(Action function) {
             function();
-            ALHelper.Check();
+            CheckErrors();
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace TomRijnbeek.Audio {
         /// <typeparam name="TReturn">The type of the return value.</typeparam>
         public TReturn Eval<TReturn>(Func<TReturn> function) {
             var val = function();
-            ALHelper.Check();
+            CheckErrors();
             return val;
         }
 
