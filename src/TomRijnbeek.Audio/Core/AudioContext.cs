@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using OpenTK;
+using OpenTK.Audio.OpenAL;
 
 using ALContext = OpenTK.Audio.AudioContext;
 
@@ -63,6 +66,84 @@ namespace TomRijnbeek.Audio {
             this.config = config;
             this.ctx = new ALContext();
         }
+
+        #region OpenAL interface
+        public float GetListener(ALListenerf property) {
+            float value;
+            AL.GetListener(property, out value);
+            CheckErrors();
+            return value;
+        }
+
+        public Vector3 GetListener(ALListener3f property) {
+            Vector3 value;
+            AL.GetListener(property, out value);
+            CheckErrors();
+            return value;
+        }
+
+        public void GetListener(ALListenerfv property, out Vector3 at, out Vector3 up) {
+            AL.GetListener(property, out at, out up);
+            CheckErrors();
+        }
+
+        public void Listener(ALListenerf property, float value) {
+            Call(() => AL.Listener(property, value));
+        }
+
+        public void Listener(ALListener3f property, Vector3 value) {
+            Call(() => AL.Listener(property, ref value));
+        }
+
+        public void Listener(ALListenerfv property, Vector3 at, Vector3 up) {
+            Call(() => AL.Listener(property, ref at, ref up));
+        }
+        #endregion
+
+        #region Helpers
+        /// <summary>
+        /// Checks if OpenAL is currently in an error state.
+        /// </summary>
+        public void CheckErrors() {
+            ALError error;
+            if ((error = AL.GetError()) == ALError.NoError) {
+                return;
+            }
+
+            // TODO: fail silently for now
+            Debug.Print(AL.GetErrorString(error));
+        }
+
+        /// <summary>
+        /// Calls a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be called.</param>
+        public void Call(Action function) {
+            function();
+            ALHelper.Check();
+        }
+
+        /// <summary>
+        /// Evaluates a function and then checks for an OpenAL error.
+        /// </summary>
+        /// <param name="function">The function to be evaluated.</param>
+        /// <typeparam name="TReturn">The type of the return value.</typeparam>
+        public TReturn Eval<TReturn>(Func<TReturn> function) {
+            var val = function();
+            ALHelper.Check();
+            return val;
+        }
+
+        public delegate void GetPropertyDelegate<TEnum, TReturn>(TEnum property, out TReturn value);
+
+        public TReturn GetProperty<TEnum, TReturn>(
+                GetPropertyDelegate<TEnum, TReturn> getter, TEnum property) {
+            var returnValue = default(TReturn);
+            getter(property, out returnValue);
+            CheckErrors();
+            return returnValue;
+        }
+        #endregion
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
