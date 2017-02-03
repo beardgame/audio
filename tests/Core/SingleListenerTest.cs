@@ -8,13 +8,12 @@ namespace TomRijnbeek.Audio.Tests {
 
         public SingleListenerTest() {
             AudioContext.InitializeForTest();
-            svcMock = new Mock<ListenerService>();
+            svcMock = new Mock<ListenerService>() { CallBase = false };
             ListenerService.SetTestInstance(svcMock.Object);
         }
 
         [Fact]
         public void RegistersListener() {
-            ListenerService.SetTestInstance(svcMock.Object);
             ALListener.Set(null);
             var listener = new SingleListener();
             Assert.Equal(ALListener.Get(), listener);
@@ -22,7 +21,6 @@ namespace TomRijnbeek.Audio.Tests {
 
         [Fact]
         public void ForbidsMultipleListeners() {
-            ListenerService.SetTestInstance(svcMock.Object);
             ALListener.Set(new Mock<IListener>().Object);
             Assert.Throws<InvalidOperationException>(() => new SingleListener());
         }
