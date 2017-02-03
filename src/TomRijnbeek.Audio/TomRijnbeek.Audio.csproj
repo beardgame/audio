@@ -57,7 +57,9 @@
     <Compile Include="Core\services\BufferService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenTK.dll.config" />
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -72,4 +74,3 @@
   </Target>
   -->
 </Project>
-
