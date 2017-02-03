@@ -9,16 +9,17 @@ namespace TomRijnbeek.Audio {
     /// Main context for using any audio related code.
     /// Should be instantiated before using any of the library's code.
     /// </summary>
-    public class AudioContext : IDisposable {
+    internal class AudioContext : IDisposable, IAudioContext
+    {
         #region Singleton
-        private static AudioContext instance;
+        private static IAudioContext instance;
 
         /// <summary>
         /// Gets the sole AudioContext instance.
-        /// Returns an exception if the audio context was not initialised.
+        /// Throws an exception if the audio context was not initialised.
         /// </summary>
         /// <value>The instance.</value>
-        public static AudioContext Instance {
+        public static IAudioContext Instance {
             get {
                 if (instance == null) {
                     throw new NullReferenceException(
@@ -47,33 +48,22 @@ namespace TomRijnbeek.Audio {
             instance = new AudioContext(config);
         }
 
-        internal static void InitializeForTest() {
-            if (instance == null) {
-                instance = new AudioContext(AudioConfig.Default, true);
-            }
+        public static void InitializeForTest() {
+            instance = new FakeAudioContext();
         }
         #endregion
 
-        private readonly AudioConfig config;
         private readonly ALContext ctx;
 
         /// <summary>
         /// The configuration used by this context.
         /// </summary>
         /// <value>The config.</value>
-        public AudioConfig Config {
-            get {
-                return this.config;
-            }
-        }
+        public AudioConfig Config { get; }
 
-        private AudioContext(AudioConfig config) : this(config, false) { }
-
-        private AudioContext(AudioConfig config, bool forTest) {
-            this.config = config;
-            if (!forTest) {
-                this.ctx = new ALContext();
-            }
+        private AudioContext(AudioConfig config) {
+            this.Config = config;
+            this.ctx = new ALContext();
         }
 
         #region Helpers
@@ -228,16 +218,14 @@ namespace TomRijnbeek.Audio {
         private bool disposedValue = false; // To detect redundant calls
 
         private void dispose(bool disposing) {
-            if (!disposedValue) {
-                if (disposing) {
-                    // Dispose managed state (managed objects).
-                }
-
-                this.ctx.Dispose();
-
-                disposedValue = true;
-                instance = null;
+            if (disposedValue) return;
+            if (disposing) {
+                // Dispose managed state (managed objects).
             }
+
+            ctx?.Dispose();
+            disposedValue = true;
+            instance = null;
         }
 
         /// <summary>

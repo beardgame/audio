@@ -8,12 +8,13 @@ namespace TomRijnbeek.Audio.Tests {
 
         public SingleListenerTest() {
             AudioContext.InitializeForTest();
-            this.svcMock = new Mock<ListenerService>();
-            ListenerService.SetTestInstance(this.svcMock.Object);
+            svcMock = new Mock<ListenerService>();
+            ListenerService.SetTestInstance(svcMock.Object);
         }
 
         [Fact]
         public void RegistersListener() {
+            ALListener.Set(null);
             var listener = new SingleListener();
             Assert.Equal(ALListener.Get(), listener);
         }

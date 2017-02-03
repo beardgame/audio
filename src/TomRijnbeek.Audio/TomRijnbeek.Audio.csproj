@@ -41,11 +41,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IAudioContext.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\Listener.cs" />
     <Compile Include="Core\SoundBuffer.cs" />
     <Compile Include="Core\SoundBufferData.cs" />
     <Compile Include="Core\Source.cs" />
+    <Compile Include="Core\testing\FakeAudioContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\ALListener.cs" />
     <Compile Include="Core\SingleListener.cs" />
