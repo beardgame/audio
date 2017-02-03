@@ -15,7 +15,7 @@ namespace TomRijnbeek.Audio {
 
         /// <summary>
         /// Gets the sole AudioContext instance.
-        /// Returns an exception if 
+        /// Returns an exception if the audio context was not initialised.
         /// </summary>
         /// <value>The instance.</value>
         public static AudioContext Instance {
