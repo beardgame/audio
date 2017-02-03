@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace TomRijnbeek.Audio {
-    internal class FakeAudioContext : IAudioContext {
+    internal sealed class FakeAudioContext : IAudioContext {
         public AudioConfig Config => AudioConfig.Default;
 
         public void CheckErrors() { }

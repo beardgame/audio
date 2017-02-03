@@ -3,7 +3,7 @@ using System;
 using Xunit;
 
 namespace TomRijnbeek.Audio.Tests {
-    public class SingleListenerTest {
+    public sealed class SingleListenerTest {
         private readonly Mock<ListenerService> svcMock;
 
         public SingleListenerTest() {

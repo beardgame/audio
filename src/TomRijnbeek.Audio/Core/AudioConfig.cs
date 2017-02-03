@@ -2,7 +2,7 @@
     /// <summary>
     /// Immutable container class for the audio configuration.
     /// </summary>
-    public class AudioConfig {
+    public sealed class AudioConfig {
         /// <summary>
         /// The maximum number of sources that can be active simulataneously.
         /// </summary>
