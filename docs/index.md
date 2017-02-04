@@ -1,3 +1,7 @@
+---
+title: TomRijnbeek.Audio
+---
+
 # TomRijnbeek.Audio
 
 ## Introduction
