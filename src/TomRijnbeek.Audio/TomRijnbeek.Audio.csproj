@@ -41,6 +41,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\exceptions\ALException.cs" />
+    <Compile Include="Core\exceptions\InvalidEnumALException.cs" />
+    <Compile Include="Core\exceptions\InvalidNameALException.cs" />
+    <Compile Include="Core\exceptions\InvalidOperationALException.cs" />
+    <Compile Include="Core\exceptions\InvalidValueALException.cs" />
+    <Compile Include="Core\exceptions\OutOfMemoryALException.cs" />
     <Compile Include="Core\IAudioContext.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\Listener.cs" />
