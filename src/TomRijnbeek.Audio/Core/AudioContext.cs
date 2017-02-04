@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using OpenTK.Audio.OpenAL;
 
 using ALContext = OpenTK.Audio.AudioContext;
@@ -70,14 +69,30 @@ namespace TomRijnbeek.Audio {
         /// <summary>
         /// Checks if OpenAL is currently in an error state.
         /// </summary>
+        /// <exception cref="ALException"></exception>
         public void CheckErrors() {
             ALError error;
-            if ((error = AL.GetError()) == ALError.NoError) {
-                return;
-            }
+            if ((error = AL.GetError()) == ALError.NoError) return;
+            throwError(error, AL.GetErrorString(error));
+        }
 
-            // TODO: fail silently for now
-            Debug.Print(AL.GetErrorString(error));
+        private void throwError(ALError error, string message) {
+            switch (error) {
+                case ALError.NoError:
+                    return;
+                case ALError.InvalidEnum:
+                    throw new InvalidEnumALException(message);
+                case ALError.InvalidName:
+                    throw new InvalidNameALException(message);
+                case ALError.InvalidOperation:
+                    throw new InvalidOperationALException(message);
+                case ALError.InvalidValue:
+                    throw new InvalidValueALException(message);
+                case ALError.OutOfMemory:
+                    throw new OutOfMemoryALException(message);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(error), error, null);
+            }
         }
 
         /// <summary>
