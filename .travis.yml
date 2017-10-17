@@ -1,19 +1,13 @@
 language: csharp
-solution: TomRijnbeek.Audio.sln
+solution: Bearded.Audio.sln
 
 mono:
  - latest
 
-script:
-  - xbuild /p:Configuration=Release TomRijnbeek.Audio.sln
-
-language: csharp
-solution: Bearded.Utilities.sln
-
 install:
-  - nuget restore TomRijnbeek.Audio.sln
+  - nuget restore Bearded.Audio.sln
   - nuget install xunit.runner.console -Version 2.1.0 -OutputDirectory testrunner
 
 script:
-  - xbuild /p:Configuration=Release TomRijnbeek.Audio.sln
-  - mono ./testrunner/xunit.runner.console.2.1.0/tools/xunit.console.exe ./tests/bin/Release/TomRijnbeek.Audio.Tests.dll
+  - xbuild /p:Configuration=Release Bearded.Audio.sln
+  - mono ./testrunner/xunit.runner.console.2.1.0/tools/xunit.console.exe ./tests/bin/Release/Bearded.Audio.Tests.dll
