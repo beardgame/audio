@@ -2,7 +2,7 @@ language: csharp
 solution: Bearded.Audio.sln
 
 mono:
- - latest
+ - alpha
 
 install:
   - nuget restore Bearded.Audio.sln
