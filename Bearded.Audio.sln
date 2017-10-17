@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomRijnbeek.Audio", "src\TomRijnbeek.Audio\TomRijnbeek.Audio.csproj", "{DA11432A-23EB-4719-ADBB-137C7441AE47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bearded.Audio", "src\Bearded.Audio\Bearded.Audio.csproj", "{DA11432A-23EB-4719-ADBB-137C7441AE47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomRijnbeek.Audio.Tests", "tests\TomRijnbeek.Audio.Tests.csproj", "{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bearded.Audio.Tests", "tests\Bearded.Audio.Tests.csproj", "{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BEB4C7C0-8A7C-4D00-B465-50C6D825DFA3}
 	EndGlobalSection
 EndGlobal

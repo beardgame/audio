@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     /// <summary>
     /// Generic OpenAL exception.
     /// </summary>

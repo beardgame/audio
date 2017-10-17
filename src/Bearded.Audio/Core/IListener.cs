@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     /// <summary>
     /// A listener interface.
     /// Every object implementing this interface can be used as audio listener in OpenAL.

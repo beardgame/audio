@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     public static class ALListener {
         private static IListener currentListener;
 

@@ -1,4 +1,4 @@
-﻿namespace TomRijnbeek.Audio {
+﻿namespace Bearded.Audio {
     /// <summary>
     /// Immutable container class for the audio configuration.
     /// </summary>
@@ -27,7 +27,7 @@
         /// Returns a new builder based on the default configuration.
         /// </summary>
         /// <returns>The builder.</returns>
-        public static Builder newBuilder() {
+        public static Builder NewBuilder() {
             return Builder.From(Default);
         }
 

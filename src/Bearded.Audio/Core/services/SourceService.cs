@@ -1,8 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
-    internal class SourceService : AudioService<SourceService> {
+namespace Bearded.Audio {
+    class SourceService : AudioService<SourceService> {
         public virtual void Delete(int handle) => ctx.Call(AL.DeleteSource, handle);
 
         public virtual int Generate() => ctx.Eval(AL.GenSource);

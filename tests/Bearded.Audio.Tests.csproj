@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DE2FF9B1-6C79-4D0A-8355-62ECA979F095}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>TomRijnbeek.Audio.Tests</RootNamespace>
-    <AssemblyName>TomRijnbeek.Audio.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Bearded.Audio.Tests</RootNamespace>
+    <AssemblyName>Bearded.Audio.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,12 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\src\TomRijnbeek.Audio\TomRijnbeek.Audio.csproj">
-      <Project>{DA11432A-23EB-4719-ADBB-137C7441AE47}</Project>
-      <Name>TomRijnbeek.Audio</Name>
+    <ProjectReference Include="..\src\Bearded.Audio\Bearded.Audio.csproj">
+      <Project>{da11432a-23eb-4719-adbb-137c7441ae47}</Project>
+      <Name>Bearded.Audio</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
