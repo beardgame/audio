@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     internal sealed class FakeAudioContext : IAudioContext {
         public AudioConfig Config => AudioConfig.Default;
 

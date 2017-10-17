@@ -1,8 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
-    internal class ListenerService : AudioService<ListenerService> {
+namespace Bearded.Audio {
+    class ListenerService : AudioService<ListenerService> {
         public virtual float GetProperty(ALListenerf property) {
             float value;
             AL.GetListener(property, out value);

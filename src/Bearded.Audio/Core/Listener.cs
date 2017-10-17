@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     /// <summary>
     /// This class represents a listener.
     /// </summary>

@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     /// <summary>
     /// Class representing an OpenAL audio source.
     /// </summary>

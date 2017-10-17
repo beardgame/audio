@@ -1,14 +1,13 @@
 ﻿using System;
 using OpenTK.Audio.OpenAL;
-
 using ALContext = OpenTK.Audio.AudioContext;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     /// <summary>
     /// Main context for using any audio related code.
     /// Should be instantiated before using any of the library's code.
     /// </summary>
-    internal class AudioContext : IDisposable, IAudioContext
+    class AudioContext : IDisposable, IAudioContext
     {
         #region Singleton
         private static IAudioContext instance;
@@ -245,7 +244,7 @@ namespace TomRijnbeek.Audio {
 
         /// <summary>
         /// Releases unmanaged resources and performs other cleanup operations before the
-        /// <see cref="T:TomRijnbeek.Audio.AudioContext"/> is reclaimed by garbage collection.
+        /// <see cref="T:Bearded.Audio.AudioContext"/> is reclaimed by garbage collection.
         /// </summary>
         ~AudioContext() {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
@@ -253,13 +252,13 @@ namespace TomRijnbeek.Audio {
         }
 
         /// <summary>
-        /// Releases all resource used by the <see cref="T:TomRijnbeek.Audio.AudioContext"/> object.
+        /// Releases all resource used by the <see cref="T:Bearded.Audio.AudioContext"/> object.
         /// </summary>
-        /// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TomRijnbeek.Audio.AudioContext"/>.
-        /// The <see cref="Dispose"/> method leaves the <see cref="T:TomRijnbeek.Audio.AudioContext"/> in an unusable
+        /// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:Bearded.Audio.AudioContext"/>.
+        /// The <see cref="Dispose"/> method leaves the <see cref="T:Bearded.Audio.AudioContext"/> in an unusable
         /// state. After calling <see cref="Dispose"/>, you must release all references to the
-        /// <see cref="T:TomRijnbeek.Audio.AudioContext"/> so the garbage collector can reclaim the memory that the
-        /// <see cref="T:TomRijnbeek.Audio.AudioContext"/> was occupying.</remarks>
+        /// <see cref="T:Bearded.Audio.AudioContext"/> so the garbage collector can reclaim the memory that the
+        /// <see cref="T:Bearded.Audio.AudioContext"/> was occupying.</remarks>
         public void Dispose() {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             dispose(true);

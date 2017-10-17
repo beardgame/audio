@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     /// <summary>
     /// Class representing sound data that can be loaded into OpenAL sound buffers.
     /// </summary>

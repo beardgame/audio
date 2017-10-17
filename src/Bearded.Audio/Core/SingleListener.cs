@@ -1,12 +1,13 @@
 ﻿using System;
-namespace TomRijnbeek.Audio {
+
+namespace Bearded.Audio {
     /// <summary>
     /// The listener that should be used if there is only one listener necessary.
     /// It registers itself as main listener with OpenAL and is not meant to be replaced.
     /// </summary>
     public class SingleListener : Listener {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TomRijnbeek.Audio.SingleListener"/> class.
+        /// Initializes a new instance of the <see cref="T:Bearded.Audio.SingleListener"/> class.
         /// </summary>
         public SingleListener() {
             if (ALListener.Get() != null) {

@@ -1,8 +1,8 @@
-﻿using Moq;
-using System;
+﻿using System;
+using Moq;
 using Xunit;
 
-namespace TomRijnbeek.Audio.Tests {
+namespace Bearded.Audio.Tests {
     public sealed class SingleListenerTest {
         private readonly Mock<ListenerService> svcMock;
 

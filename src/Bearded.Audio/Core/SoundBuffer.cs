@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     /// <summary>
     /// Class representing a group of OpenAL audio buffers.
     /// </summary>
@@ -97,7 +97,7 @@ namespace TomRijnbeek.Audio {
         }
 
         /// <summary>
-        /// Gets the <see cref="T:TomRijnbeek.Audio.SoundBuffer"/> handle at the specified index.
+        /// Gets the <see cref="T:Bearded.Audio.SoundBuffer"/> handle at the specified index.
         /// </summary>
         /// <param name="i">The index.</param>
         public int this[int i] => this.handles[i];

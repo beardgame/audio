@@ -1,4 +1,4 @@
-﻿namespace TomRijnbeek.Audio {
+﻿namespace Bearded.Audio {
     internal abstract class AudioService<TService> where TService : AudioService<TService>, new() {
         private static TService instance;
         public static TService Instance => instance ?? (instance = new TService());

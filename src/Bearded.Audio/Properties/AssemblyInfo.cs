@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TomRijnbeek.Audio")]
+[assembly: AssemblyTitle("Bearded.Audio")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TomRijnbeek.Audio")]
+[assembly: AssemblyProduct("Bearded.Audio")]
 [assembly: AssemblyCopyright("Copyright © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -36,5 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("0.1.0.0")]
 
 // Expose internal properties to unit tests project.
-[assembly: InternalsVisibleTo("TomRijnbeek.Audio.Tests")]
+[assembly: InternalsVisibleTo("Bearded.Audio.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

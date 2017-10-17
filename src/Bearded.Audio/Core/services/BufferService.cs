@@ -1,6 +1,6 @@
 ﻿using OpenTK.Audio.OpenAL;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     internal class BufferService : AudioService<BufferService> {
         public virtual void Delete(int[] handles) => ctx.Call(AL.DeleteBuffers, handles);
 

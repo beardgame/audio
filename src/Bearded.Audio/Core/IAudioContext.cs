@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TomRijnbeek.Audio {
+namespace Bearded.Audio {
     internal interface IAudioContext {
         /// <summary>
         /// The configuration used by this context.
