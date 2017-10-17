@@ -1,8 +1,8 @@
 ---
-title: TomRijnbeek.Audio
+title: Bearded.Audio
 ---
 
-# TomRijnbeek.Audio
+# Bearded.Audio
 
 ## Introduction
 Work in progress
