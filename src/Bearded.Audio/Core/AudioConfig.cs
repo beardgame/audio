@@ -17,8 +17,9 @@
         public static readonly AudioConfig Default;
 
         static AudioConfig() {
-            Default = new AudioConfig();
-            Default.MaxSources = 32;
+            Default = new AudioConfig {
+                MaxSources = 32
+            };
         }
         #endregion
 
@@ -45,7 +46,7 @@
                 return builder;
             }
 
-            private AudioConfig workInstance;
+            private readonly AudioConfig workInstance;
 
             private Builder() {
                 workInstance = new AudioConfig();

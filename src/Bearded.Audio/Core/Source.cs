@@ -19,22 +19,22 @@ namespace Bearded.Audio {
         /// <summary>
         /// The current state of this source.
         /// </summary>
-        public ALSourceState State => this.svc.GetState(this);
+        public ALSourceState State => svc.GetState(this);
 
         /// <summary>
         /// The amount of buffers the source has already played.
         /// </summary>
-        public int ProcessedBuffers => this.svc.GetProperty(this, ALGetSourcei.BuffersProcessed);
+        public int ProcessedBuffers => svc.GetProperty(this, ALGetSourcei.BuffersProcessed);
 
         /// <summary>
         /// The total amount of buffers to source has queued to play.
         /// </summary>
-        public int QueuedBuffers => this.svc.GetProperty(this, ALGetSourcei.BuffersQueued);
+        public int QueuedBuffers => svc.GetProperty(this, ALGetSourcei.BuffersQueued);
 
         /// <summary>
         /// Whether the source is finished playing all queued buffers.
         /// </summary>
-        public bool FinishedPlaying => this.ProcessedBuffers >= this.QueuedBuffers && !this.looping;
+        public bool FinishedPlaying => ProcessedBuffers >= QueuedBuffers && !looping;
         #endregion
 
         #region Properties
@@ -46,24 +46,24 @@ namespace Bearded.Audio {
         /// The volume at which the source plays its buffers.
         /// </summary>
         public float Gain {
-            get { return this.gain; }
-            set { this.svc.SetProperty(this, ALSourcef.Gain, this.gain = value); }
+            get => gain;
+            set => svc.SetProperty(this, ALSourcef.Gain, gain = value);
         }
 
         /// <summary>
         /// The pitch at which the source plays its buffers.
         /// </summary>
         public float Pitch {
-            get { return this.pitch; }
-            set { this.svc.SetProperty(this, ALSourcef.Pitch, this.pitch = value); }
+            get => pitch;
+            set => svc.SetProperty(this, ALSourcef.Pitch, pitch = value);
         }
 
         /// <summary>
         /// Whether the source should repeat itself or not.
         /// </summary>
         public bool Looping {
-            get { return this.looping; }
-            set { this.svc.SetProperty(this, ALSourceb.Looping, this.looping = value); }
+            get => looping;
+            set => svc.SetProperty(this, ALSourceb.Looping, looping = value);
         }
 
         /// <summary>
@@ -71,8 +71,8 @@ namespace Bearded.Audio {
         /// </summary>
         /// <remarks>With the default listener, OpenAL uses a right hand coordinate system, with x pointing right, y pointing up, and z pointing towards the viewer.</remarks>
         public Vector3 Position {
-            get { return this.position; }
-            set { this.svc.SetProperty(this, ALSource3f.Position, this.position = value); }
+            get => position;
+            set => svc.SetProperty(this, ALSource3f.Position, position = value);
         }
 
         /// <summary>
@@ -80,8 +80,8 @@ namespace Bearded.Audio {
         /// </summary>
         /// <remarks>With the default listener, OpenAL uses a right hand coordinate system, with x pointing right, y pointing up, and z pointing towards the viewer.</remarks>
         public Vector3 Velocity {
-            get { return this.velocity; }
-            set { this.svc.SetProperty(this, ALSource3f.Position, this.velocity = value); }
+            get => velocity;
+            set => svc.SetProperty(this, ALSource3f.Position, velocity = value);
         }
         #endregion
 
@@ -90,17 +90,17 @@ namespace Bearded.Audio {
         /// Creates a new OpenAL source.
         /// </summary>
         public Source() {
-            this.svc = SourceService.Instance;
-            this.handle = this.svc.Generate();
+            svc = SourceService.Instance;
+            handle = svc.Generate();
 
-            this.gain = 1;
-            this.pitch = 1;
+            gain = 1;
+            pitch = 1;
         }
         #endregion
 
         #region Buffers
         private void queueBuffersRaw(int bufferLength, int[] bufferIDs) {
-            this.svc.QueueBuffers(this, bufferLength, bufferIDs);
+            svc.QueueBuffers(this, bufferLength, bufferIDs);
         }
 
         /// <summary>
@@ -109,24 +109,24 @@ namespace Bearded.Audio {
         /// <param name="buffer"></param>
         public void QueueBuffer(SoundBuffer buffer) {
             var handles = (int[])buffer;
-            this.queueBuffersRaw(handles.Length, handles);
+            queueBuffersRaw(handles.Length, handles);
         }
 
         /// <summary>
         /// Removes all the buffers from the source.
         /// </summary>
         public void UnqueueBuffers() {
-            if (this.QueuedBuffers == 0)
+            if (QueuedBuffers == 0)
                 return;
 
-            this.svc.UnqueueBuffers(this, this.QueuedBuffers);
+            svc.UnqueueBuffers(this, QueuedBuffers);
         }
 
         /// <summary>
         /// Removes all the processed buffers from the source.
         /// </summary>
         public void UnqueueProcessedBuffers() {
-            this.svc.UnqueueBuffers(this, this.ProcessedBuffers);
+            svc.UnqueueBuffers(this, ProcessedBuffers);
         }
         #endregion
 
@@ -134,22 +134,22 @@ namespace Bearded.Audio {
         /// <summary>
         /// Starts playing the source.
         /// </summary>
-        public void Play() => this.svc.Play(this);
+        public void Play() => svc.Play(this);
 
         /// <summary>
         /// Pauses playing the source.
         /// </summary>
-        public void Pause() => this.svc.Pause(this);
+        public void Pause() => svc.Pause(this);
 
         /// <summary>
         /// Stops playing the source.
         /// </summary>
-        public void Stop() => this.svc.Stop(this);
+        public void Stop() => svc.Stop(this);
 
         /// <summary>
         /// Rewinds the source.
         /// </summary>
-        public void Rewind() => this.svc.Rewind(this);
+        public void Rewind() => svc.Rewind(this);
         #endregion
 
         #region IDisposable implementation
@@ -157,14 +157,14 @@ namespace Bearded.Audio {
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose() {
-            if (this.Disposed)
+            if (Disposed)
                 return;
 
-            if (this.State != ALSourceState.Stopped)
-                this.Stop();
+            if (State != ALSourceState.Stopped)
+                Stop();
 
-            this.svc.Delete(this);
-            this.Disposed = true;
+            svc.Delete(this);
+            Disposed = true;
         }
         #endregion
 
@@ -174,7 +174,7 @@ namespace Bearded.Audio {
         /// </summary>
         /// <param name="source">The source that should be casted.</param>
         /// <returns>The OpenAL handle of the source.</returns>
-        static public implicit operator int(Source source) {
+        public static implicit operator int(Source source) {
             return source.handle;
         }
         #endregion

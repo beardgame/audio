@@ -7,8 +7,7 @@ namespace Bearded.Audio.Tests {
         private readonly Mock<ListenerService> svcMock;
 
         public SingleListenerTest() {
-            AudioContext.InitializeForTest();
-            svcMock = new Mock<ListenerService>() { CallBase = false };
+            svcMock = new Mock<ListenerService> { CallBase = false };
             ListenerService.SetTestInstance(svcMock.Object);
         }
 

@@ -16,7 +16,7 @@ namespace Bearded.Audio {
         /// </summary>
         /// <param name="type">The OpenAL error type.</param>
         /// <param name="message">The exception message.</param>
-        public ALException(ALError type, string message) : base(message) {
+        protected ALException(ALError type, string message) : base(message) {
             Type = type;
         }
     }

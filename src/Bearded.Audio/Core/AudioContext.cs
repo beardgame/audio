@@ -7,17 +7,17 @@ namespace Bearded.Audio {
     /// Main context for using any audio related code.
     /// Should be instantiated before using any of the library's code.
     /// </summary>
-    class AudioContext : IDisposable, IAudioContext
+    class AudioContext : IDisposable
     {
         #region Singleton
-        private static IAudioContext instance;
+        private static AudioContext instance;
 
         /// <summary>
         /// Gets the sole AudioContext instance.
         /// Throws an exception if the audio context was not initialised.
         /// </summary>
         /// <value>The instance.</value>
-        public static IAudioContext Instance {
+        public static AudioContext Instance {
             get {
                 if (instance == null) {
                     throw new NullReferenceException(
@@ -45,10 +45,6 @@ namespace Bearded.Audio {
 
             instance = new AudioContext(config);
         }
-
-        public static void InitializeForTest() {
-            instance = new FakeAudioContext();
-        }
         #endregion
 
         private readonly ALContext ctx;
@@ -60,8 +56,8 @@ namespace Bearded.Audio {
         public AudioConfig Config { get; }
 
         private AudioContext(AudioConfig config) {
-            this.Config = config;
-            this.ctx = new ALContext();
+            Config = config;
+            ctx = new ALContext();
         }
 
         #region Helpers
@@ -229,7 +225,7 @@ namespace Bearded.Audio {
         #endregion
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue; // To detect redundant calls
 
         private void dispose(bool disposing) {
             if (disposedValue) return;
