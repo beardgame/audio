@@ -2,7 +2,7 @@
 
 namespace Bearded.Audio {
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-    class BufferService : AudioService<BufferService> {
+    class BufferService : AudioService<IBufferService, BufferService>, IBufferService {
         public virtual void Delete(int[] handles) => Context.Call(AL.DeleteBuffers, handles);
 
         public virtual void Fill(int handle, ALFormat format, short[] data, int sampleRate) {

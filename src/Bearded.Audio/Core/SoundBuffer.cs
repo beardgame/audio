@@ -6,7 +6,7 @@ namespace Bearded.Audio {
     /// Class representing a group of OpenAL audio buffers.
     /// </summary>
     public class SoundBuffer : IDisposable {
-        private readonly BufferService svc;
+        private readonly IBufferService svc;
 
         /// <summary>
         /// List of OpenAL buffer handles.

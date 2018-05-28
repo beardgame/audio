@@ -3,7 +3,7 @@ using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio {
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-    class ListenerService : AudioService<ListenerService> {
+    class ListenerService : AudioService<IListenerService, ListenerService>, IListenerService {
         public virtual float GetProperty(ALListenerf property) {
             AL.GetListener(property, out var value);
             Context.CheckErrors();

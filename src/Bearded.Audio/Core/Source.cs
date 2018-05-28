@@ -7,7 +7,7 @@ namespace Bearded.Audio {
     /// Class representing an OpenAL audio source.
     /// </summary>
     public class Source : IDisposable {
-        private readonly SourceService svc;
+        private readonly ISourceService svc;
         private readonly int handle;
 
         #region State

@@ -3,7 +3,7 @@ using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio {
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-    class SourceService : AudioService<SourceService> {
+    class SourceService : AudioService<ISourceService, SourceService>, ISourceService {
         public virtual void Delete(int handle) => Context.Call(AL.DeleteSource, handle);
 
         public virtual int Generate() => Context.Eval(AL.GenSource);

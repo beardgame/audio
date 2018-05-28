@@ -52,6 +52,9 @@
     <Compile Include="Core\exceptions\OutOfMemoryALException.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\Listener.cs" />
+    <Compile Include="Core\services\IBufferService.cs" />
+    <Compile Include="Core\services\IListenerService.cs" />
+    <Compile Include="Core\services\ISourceService.cs" />
     <Compile Include="Core\SoundBuffer.cs" />
     <Compile Include="Core\SoundBufferData.cs" />
     <Compile Include="Core\Source.cs" />
