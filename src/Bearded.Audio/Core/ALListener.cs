@@ -40,36 +40,34 @@ namespace Bearded.Audio {
         }
 
         public static Vector3 Position {
-            get { return ListenerService.Instance.GetProperty(ALListener3f.Position); }
-            set { ListenerService.Instance.SetProperty(ALListener3f.Position, value); }
+            get => ListenerService.Instance.GetProperty(ALListener3f.Position);
+            set => ListenerService.Instance.SetProperty(ALListener3f.Position, value);
         }
 
         public static Vector3 Velocity {
-            get { return ListenerService.Instance.GetProperty(ALListener3f.Velocity); }
-            set { ListenerService.Instance.SetProperty(ALListener3f.Velocity, value); }
+            get => ListenerService.Instance.GetProperty(ALListener3f.Velocity);
+            set => ListenerService.Instance.SetProperty(ALListener3f.Velocity, value);
         }
 
         public static float Gain {
-            get { return ListenerService.Instance.GetProperty(ALListenerf.Gain); }
-            set { ListenerService.Instance.SetProperty(ALListenerf.Gain, value); }
+            get => ListenerService.Instance.GetProperty(ALListenerf.Gain);
+            set => ListenerService.Instance.SetProperty(ALListenerf.Gain, value);
         }
 
         public static Vector3 At {
             get {
-                Vector3 at, up;
-                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out at, out up);
+                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out var at, out _);
                 return at;
             }
-            set { ListenerService.Instance.SetProperty(ALListenerfv.Orientation, value, Up); }
+            set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, value, Up);
         }
 
         public static Vector3 Up {
             get {
-                Vector3 at, up;
-                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out at, out up);
+                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out _, out var up);
                 return up;
             }
-            set { ListenerService.Instance.SetProperty(ALListenerfv.Orientation, At, value); }
+            set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, At, value);
         }
     }
 }

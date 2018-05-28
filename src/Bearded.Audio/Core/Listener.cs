@@ -22,11 +22,11 @@ namespace Bearded.Audio {
         /// </summary>
         public Vector3 Position {
             get {
-                return this.position;
+                return position;
             }
             set {
-                this.position = value;
-                this.broadcastChange();
+                position = value;
+                broadcastChange();
             }
         }
 
@@ -37,11 +37,11 @@ namespace Bearded.Audio {
         /// </summary>
         public Vector3 Velocity {
             get {
-                return this.velocity;
+                return velocity;
             }
             set {
-                this.velocity = value;
-                this.broadcastChange();
+                velocity = value;
+                broadcastChange();
             }
         }
 
@@ -52,11 +52,11 @@ namespace Bearded.Audio {
         /// </summary>
         public float Gain {
             get {
-                return this.gain;
+                return gain;
             }
             set {
-                this.gain = value;
-                this.broadcastChange();
+                gain = value;
+                broadcastChange();
             }
         }
 
@@ -67,11 +67,11 @@ namespace Bearded.Audio {
         /// </summary>
         public Vector3 Up {
             get {
-                return this.up;
+                return up;
             }
             set {
-                this.up = value;
-                this.broadcastChange();
+                up = value;
+                broadcastChange();
             }
         }
 
@@ -82,11 +82,11 @@ namespace Bearded.Audio {
         /// </summary>
         public Vector3 At {
             get {
-                return this.at;
+                return at;
             }
             set {
-                this.at = value;
-                this.broadcastChange();
+                at = value;
+                broadcastChange();
             }
         }
 
@@ -99,11 +99,11 @@ namespace Bearded.Audio {
         /// Creates a new listener with default parameters.
         /// </summary>
         protected Listener() {
-            this.position = Vector3.Zero;
-            this.velocity = Vector3.Zero;
-            this.gain = 1f;
-            this.at = -Vector3.UnitZ;
-            this.up = Vector3.UnitY;
+            position = Vector3.Zero;
+            velocity = Vector3.Zero;
+            gain = 1f;
+            at = -Vector3.UnitZ;
+            up = Vector3.UnitY;
         }
 
         /// <summary>
@@ -113,14 +113,13 @@ namespace Bearded.Audio {
         /// <param name="forward">The (unit) direction that is considered "forward". Default OpenAL assumes -z direction.</param>
         /// <param name="up">The (unit) direction that is considered "up". Default OpenAL assumes +y direction.</param>
         public void SetOrientationFromQuaternion(Quaternion quaternion, Vector3 forward, Vector3 up) {
-            this.At = Vector3.Transform(forward, quaternion);
-            this.Up = Vector3.Transform(up, quaternion);
+            At = Vector3.Transform(forward, quaternion);
+            Up = Vector3.Transform(up, quaternion);
         }
 
-        private void broadcastChange() {
-            if (this.ListenerUpdated != null) {
-                this.ListenerUpdated(this);
-            }
+        private void broadcastChange()
+        {
+            ListenerUpdated?.Invoke(this);
         }
     }
 }

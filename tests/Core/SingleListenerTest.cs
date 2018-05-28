@@ -4,11 +4,10 @@ using Xunit;
 
 namespace Bearded.Audio.Tests {
     public sealed class SingleListenerTest {
-        private readonly Mock<ListenerService> svcMock;
+        private readonly Mock<IListenerService> svcMock;
 
         public SingleListenerTest() {
-            AudioContext.InitializeForTest();
-            svcMock = new Mock<ListenerService>() { CallBase = false };
+            svcMock = new Mock<IListenerService>();
             ListenerService.SetTestInstance(svcMock.Object);
         }
 

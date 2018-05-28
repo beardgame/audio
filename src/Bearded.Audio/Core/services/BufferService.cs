@@ -1,13 +1,14 @@
 ﻿using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio {
-    internal class BufferService : AudioService<BufferService> {
-        public virtual void Delete(int[] handles) => ctx.Call(AL.DeleteBuffers, handles);
+    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
+    class BufferService : AudioService<IBufferService, BufferService>, IBufferService {
+        public virtual void Delete(int[] handles) => Context.Call(AL.DeleteBuffers, handles);
 
         public virtual void Fill(int handle, ALFormat format, short[] data, int sampleRate) {
-            ctx.Call(AL.BufferData, handle, format, data, sizeof(short) * data.Length, sampleRate);
+            Context.Call(AL.BufferData, handle, format, data, sizeof(short) * data.Length, sampleRate);
         }
 
-        public virtual int[] Generate(int n) => ctx.Eval(AL.GenBuffers, n);
+        public virtual int[] Generate(int n) => Context.Eval(AL.GenBuffers, n);
     }
 }
