@@ -1,86 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DA11432A-23EB-4719-ADBB-137C7441AE47}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bearded.Audio</RootNamespace>
     <AssemblyName>Bearded.Audio</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Debug\Bearded.Audio.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Release\Bearded.Audio.xml</DocumentationFile>
+    <TargetFramework>net462</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="OpenTK">
-      <HintPath>..\..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis">
-      <HintPath>..\..\packages\NVorbis.0.8.5.0\lib\NVorbis.dll</HintPath>
-    </Reference>
+    <PackageReference Include="OpenTK" Version="2.0.0" />
+    <PackageReference Include="NVorbis" Version="0.8.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\exceptions\ALException.cs" />
-    <Compile Include="Core\exceptions\InvalidEnumALException.cs" />
-    <Compile Include="Core\exceptions\InvalidNameALException.cs" />
-    <Compile Include="Core\exceptions\InvalidOperationALException.cs" />
-    <Compile Include="Core\exceptions\InvalidValueALException.cs" />
-    <Compile Include="Core\exceptions\OutOfMemoryALException.cs" />
-    <Compile Include="Core\IListener.cs" />
-    <Compile Include="Core\Listener.cs" />
-    <Compile Include="Core\services\IBufferService.cs" />
-    <Compile Include="Core\services\IListenerService.cs" />
-    <Compile Include="Core\services\ISourceService.cs" />
-    <Compile Include="Core\SoundBuffer.cs" />
-    <Compile Include="Core\SoundBufferData.cs" />
-    <Compile Include="Core\Source.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\ALListener.cs" />
-    <Compile Include="Core\SingleListener.cs" />
-    <Compile Include="Core\AudioContext.cs" />
-    <Compile Include="Core\AudioConfig.cs" />
-    <Compile Include="Core\services\ListenerService.cs" />
-    <Compile Include="Core\services\AudioService.cs" />
-    <Compile Include="Core\services\SourceService.cs" />
-    <Compile Include="Core\services\BufferService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="OpenTK.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
+    <None Include="*.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
