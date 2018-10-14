@@ -4,6 +4,15 @@
     <RootNamespace>Bearded.Audio</RootNamespace>
     <AssemblyName>Bearded.Audio</AssemblyName>
     <TargetFramework>net462</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\bin\Bearded.Audio\Debug\</OutputPath>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\bin\Bearded.Audio\Release\</OutputPath>
+    <DocumentationFile>..\..\bin\Bearded.Audio\Release\Bearded.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="2.0.0" />
