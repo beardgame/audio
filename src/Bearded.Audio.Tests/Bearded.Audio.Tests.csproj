@@ -1,25 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <RootNamespace>Bearded.Audio</RootNamespace>
-    <AssemblyName>Bearded.Audio</AssemblyName>
+    <RootNamespace>Bearded.Audio.Tests</RootNamespace>
+    <AssemblyName>Bearded.Audio.Tests</AssemblyName>
     <TargetFramework>net462</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\..\bin\Bearded.Audio\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
+    <OutputPath>..\..\bin\Bearded.Audio.Tests\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\bin\Bearded.Audio\Release\</OutputPath>
-    <DocumentationFile>..\..\bin\Bearded.Audio\Release\Bearded.Audio.xml</DocumentationFile>
+    <OutputPath>..\..\bin\Bearded.Audio.Tests\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Moq" Version="4.10.0" />
     <PackageReference Include="OpenTK" Version="2.0.0" />
     <PackageReference Include="NVorbis" Version="0.8.5.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <ProjectReference Include="..\Bearded.Audio\Bearded.Audio.csproj">
+      <Project>{da11432a-23eb-4719-adbb-137c7441ae47}</Project>
+      <Name>Bearded.Audio</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="*.config" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-  <ItemGroup />
 </Project>
