@@ -7,7 +7,7 @@ namespace Bearded.Audio {
     /// Main context for using any audio related code.
     /// Should be instantiated before using any of the library's code.
     /// </summary>
-    class AudioContext : IDisposable
+    public class AudioContext : IDisposable
     {
         #region Singleton
         private static AudioContext instance;

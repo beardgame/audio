@@ -115,7 +115,7 @@ namespace Bearded.Audio {
         /// <summary>
         /// Removes all the buffers from the source.
         /// </summary>
-        public void UnqueueBuffers() {
+        public void DequeueBuffers() {
             if (QueuedBuffers == 0)
                 return;
 
@@ -125,7 +125,7 @@ namespace Bearded.Audio {
         /// <summary>
         /// Removes all the processed buffers from the source.
         /// </summary>
-        public void UnqueueProcessedBuffers() {
+        public void DequeueProcessedBuffers() {
             svc.UnqueueBuffers(this, ProcessedBuffers);
         }
         #endregion
