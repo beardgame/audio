@@ -4,7 +4,7 @@
     /// </summary>
     public sealed class AudioConfig {
         /// <summary>
-        /// The maximum number of sources that can be active simulataneously.
+        /// The maximum number of sources that can be active simultaneously.
         /// </summary>
         public int MaxSources { get; private set; }
 
