@@ -15,6 +15,12 @@ Pull requests welcome.
 
 The `Bearded.Audio` package is available on NuGet.
 
+## Glossary
+
+* `Listener`: entity in a virtual world that represents the properties of the person listening to the sounds. OpenAL only supports a single listener.
+* `Source`: entity in a virtual world (with an optional position, velocity, etc.) that can play sounds from buffers.
+* `Buffer`: space on the sound card or reserved for the software OpenAL implementation for audio data.
+
 ## Getting started
 
 The quickest way to get going is to take a look at the `Bearded.Audio.Example` project, which shows a working example of loading and playing a sound.
@@ -48,8 +54,6 @@ All sounds played through OpenAL come from a source. Sources can be given positi
 ```cs
 var source = new Source();
 ```
-
-Under the hood this will request a new source from OpenAL. Most implementations of OpenAL have a maximum number of sources, so it is recommended you use sources sparingly and dispose them whenever you are ready with them. You can use the `AudioConfig` to specify the maximum number of sources you want the library to allow. The library can choose to silently fail to prevent your application from crashing if more than the maximum number of sources are requested.
 
 A source can be played, but we need to tell it what buffers it should read the data from. We can use the sound buffers we created previously:
 
@@ -106,9 +110,3 @@ while (!source.FinishedPlaying) {
 source.Dispose();
 AudioContext.Instance.Dispose();
 ```
-
-## Glossary
-
-* `Listener`: entity in a virtual world that represents the properties of the person listening to the sounds. OpenAL only supports a single listener.
-* `Source`: entity in a virtual world that can make sounds.
-* `Buffer`: space on the sound card or reserved for the software OpenAL implementation for audio data.
