@@ -34,7 +34,7 @@ AudioContext.Initialize();
 
 This will make sure there is an audio-device that can play the sounds. The `AudioContext` is a singleton, so you only need to initialize it once. However, note that the `AudioContext` uses the `ALContext` from OpenTK under the hood which is thread-specific. If you plan on using multiple threads in your game, make sure the `AudioContext` is initialized on the thread that is used to execute audio code.
 
-Next we need to load the audio data from a file into the sound buffers. A sound buffer is some reserved space on the sound card (similar to for example vertex buffers in graphics programmers). For this reason, loading the data to the buffer is split in two steps. First we load the audio data from a file into application memory, and then we write the data to the buffer. This separation can be useful because the total size of the buffers is limited. Decompression of the audio files may be slow, so by keeping the audio data fully uncompressed in memory makes sure audio is still ready to go when you need it, as copying to buffers is relatively fast.
+Next, we need to load the audio data from a file into the sound buffers. A sound buffer is some reserved space on the sound card (similar to, for example, vertex buffers in graphics programming). For this reason, loading the data to the buffer is split in two steps. First we load the audio data from a file into application memory, and then we write the data to the buffer. This separation can be useful because the total size of the buffers is limited. Decompression of the audio files may be slow, so by keeping the audio data fully uncompressed in memory we make sure audio is ready to go when you need it, as copying to buffers is relatively fast.
 
 ```cs
 var data = SoundBufferData.FromWav("assets/pew.wav");
@@ -43,7 +43,7 @@ var buffer = new SoundBuffer(data);
 
 The first line creates a wrapper object for the data just loaded. This data is immutable after loading. The second line makes the sound buffer. Under the hood this reserves enough buffer space to fit the data and copies it immediately. Buffers can be overwritten or filled over time, which can be useful for streaming audio.
 
-All sounds played through OpenAL come from a source. Sources can be given positions, velocities, and more to simulate a 3D environment. However, for most uses you don't need to engage with these. Creating a new source is simple:
+All sounds played through OpenAL come from a source. Sources can be given positions, velocities, and more to simulate a 3D environment. However, for most use cases you don't need to engage with these. Creating a new source is simple:
 
 ```cs
 var source = new Source();
