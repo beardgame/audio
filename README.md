@@ -18,7 +18,7 @@ The `Bearded.Audio` package is available on NuGet.
 ## Glossary
 
 * `Listener`: entity in a virtual world that represents the properties of the person listening to the sounds. OpenAL only supports a single listener.
-* `Source`: entity in a virtual world (with an optional position, velocity, etc.) that can play sounds from buffers.
+* `Source`: entity in a virtual world that can play sounds from buffers. These sounds are picked up by the virtual listener. Sources can optionally have properties such as positions and velocity, allowing one to simulate sound in a three-dimensional environment.
 * `Buffer`: space on the sound card or reserved for the software OpenAL implementation for audio data.
 
 ## Getting started
