@@ -12,9 +12,14 @@ namespace Bearded.Audio {
         private readonly List<Source> sources;
         private readonly Queue<Source> availableSources;
 
-        private bool hasReachedCapacity => sources.Count == sources.Capacity;
+        private bool hasReachedCapacity => sources.Count == Capacity;
 
         private bool hasAvailableAllocatedSource => availableSources.Count > 0;
+
+        /// <summary>
+        /// The number of sources this source pool manages.
+        /// </summary>
+        public int Capacity => sources.Capacity;
 
         /// <summary>
         /// Whether there is currently a source available for playing.
@@ -41,6 +46,11 @@ namespace Bearded.Audio {
         public static SourcePool CreateInstance(int numSources) => new SourcePool(numSources);
         
         private SourcePool(int numSources) {
+            if (numSources <= 0) {
+                throw new ArgumentException(
+                    "Cannot create a source pool with a non-positive number of sources", nameof(numSources));
+            }
+            
             sources = new List<Source>(numSources);
             availableSources = new Queue<Source>();
         }
@@ -84,6 +94,15 @@ namespace Bearded.Audio {
         }
 
         /// <summary>
+        /// Reclaims all sources that are not currently playing any sound.
+        /// </summary>
+        public void ReclaimAllFinishedSources() {
+            foreach (var source in sources.Where(s => s.FinishedPlaying)) {
+                ReclaimSource(source);
+            }
+        }
+
+        /// <summary>
         /// Reclaims a source by adding it back to the available sources pool.
         ///
         /// <para>Sources to be reclaimed should no longer be playing and should not be disposed.</para>
@@ -105,15 +124,6 @@ namespace Bearded.Audio {
             
             resetSource(source);
             availableSources.Enqueue(source);
-        }
-
-        /// <summary>
-        /// Reclaims all sources that are not currently playing any sound.
-        /// </summary>
-        public void ReclaimAllFinishedSources() {
-            foreach (var source in sources.Where(s => s.FinishedPlaying)) {
-                ReclaimSource(source);
-            }
         }
 
         private static void resetSource(Source source) {
