@@ -3,6 +3,7 @@ using OpenTK.Audio.OpenAL;
 using ALContext = OpenTK.Audio.AudioContext;
 
 namespace Bearded.Audio {
+    /// <inheritdoc />
     /// <summary>
     /// Main context for using any audio related code.
     /// Should be instantiated before using any of the library's code.
@@ -28,39 +29,28 @@ namespace Bearded.Audio {
         }
 
         /// <summary>
-        /// Initializes the audio context with the default configuration.
+        /// Initializes the audio context.
         /// </summary>
         public static void Initialize() {
-            Initialize(AudioConfig.Default);
-        }
-
-        /// <summary>
-        /// Initializes the audio context with the specified configuration.
-        /// </summary>
-        /// <param name="config">Config.</param>
-        public static void Initialize(AudioConfig config) {
             if (instance != null) {
                 throw new InvalidOperationException("Only one audio context can be instantiated.");
             }
 
-            instance = new AudioContext(config);
+            instance = new AudioContext();
         }
         #endregion
 
         private readonly ALContext ctx;
 
-        /// <summary>
-        /// The configuration used by this context.
-        /// </summary>
-        /// <value>The config.</value>
-        public AudioConfig Config { get; }
-
-        private AudioContext(AudioConfig config) {
-            Config = config;
+        private AudioContext() {
             ctx = new ALContext();
         }
 
         #region Helpers
+        
+        // ReSharper disable MemberCanBeMadeStatic.Global
+        // The following methods are non-static to force there being an AudioContext instance.
+        
         /// <summary>
         /// Checks if OpenAL is currently in an error state.
         /// </summary>
@@ -71,7 +61,7 @@ namespace Bearded.Audio {
             throwError(error, AL.GetErrorString(error));
         }
 
-        private void throwError(ALError error, string message) {
+        private static void throwError(ALError error, string message) {
             switch (error) {
                 case ALError.NoError:
                     return;
@@ -222,19 +212,22 @@ namespace Bearded.Audio {
             CheckErrors();
             return val;
         }
+        
+        // ReSharper restore MemberCanBeMadeStatic.Global
+        
         #endregion
 
         #region IDisposable Support
-        private bool disposedValue; // To detect redundant calls
+        private bool isDisposed; // To detect redundant calls
 
         private void dispose(bool disposing) {
-            if (disposedValue) return;
+            if (isDisposed) return;
             if (disposing) {
                 // Dispose managed state (managed objects).
             }
 
             ctx?.Dispose();
-            disposedValue = true;
+            isDisposed = true;
             instance = null;
         }
 
