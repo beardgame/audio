@@ -41,7 +41,7 @@ namespace Bearded.Audio {
         }
 
         /// <summary>
-        /// Creates a new source pool 
+        /// Creates a new source pool.
         /// </summary>
         public static SourcePool CreateInstance(int numSources) => new SourcePool(numSources);
 
