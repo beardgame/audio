@@ -93,7 +93,8 @@ namespace Bearded.Audio {
 
         private void allocateNewSource() {
             if (hasReachedCapacity) {
-                throw new InvalidOperationException("Cannot allocate a new source because capacity reached.");
+                throw new InvalidOperationException(
+                    "Cannot allocate a new source because the pool has reached its capacity.");
             }
 
             var source = new Source();
