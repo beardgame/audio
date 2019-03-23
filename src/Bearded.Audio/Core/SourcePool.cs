@@ -8,7 +8,6 @@ namespace Bearded.Audio {
     /// the program from using more sources than allowed by the sound driver.
     /// </summary>
     public sealed class SourcePool : IDisposable {
-
         private readonly List<Source> sources;
         private readonly Queue<Source> availableSources;
 
@@ -19,7 +18,7 @@ namespace Bearded.Audio {
         /// <summary>
         /// The number of sources this source pool manages.
         /// </summary>
-        public int Capacity => sources.Capacity;
+        public int Capacity { get; }
 
         /// <summary>
         /// Whether there is currently a source available for playing.
@@ -51,8 +50,9 @@ namespace Bearded.Audio {
                     "Cannot create a source pool with a non-positive number of sources", nameof(numSources));
             }
 
-            sources = new List<Source>(numSources);
-            availableSources = new Queue<Source>();
+            Capacity = numSources;
+            sources = new List<Source>(Capacity);
+            availableSources = new Queue<Source>(Capacity);
         }
 
         /// <summary>
@@ -70,17 +70,25 @@ namespace Bearded.Audio {
         /// Attempts to get an available source. Will return false if no source could be assigned.
         /// </summary>
         public bool TryGetSource(out Source source) {
-            if (!HasAvailableSource) {
-                source = null;
-                return false;
+            ensureAllocatedSourceAvailable();
+
+            if (hasAvailableAllocatedSource) {
+                source = availableSources.Dequeue();
+                return true;
             }
 
-            if (!hasAvailableAllocatedSource) {
+            source = null;
+            return false;
+        }
+
+        private void ensureAllocatedSourceAvailable() {
+            if (hasAvailableAllocatedSource) {
+                return;
+            }
+
+            if (!hasReachedCapacity) {
                 allocateNewSource();
             }
-
-            source = availableSources.Dequeue();
-            return true;
         }
 
         private void allocateNewSource() {
@@ -98,7 +106,7 @@ namespace Bearded.Audio {
         /// </summary>
         public void ReclaimAllFinishedSources() {
             foreach (var source in sources.Where(s => s.FinishedPlaying)) {
-                ReclaimSource(source);
+                reclaimSource(source);
             }
         }
 
@@ -115,11 +123,16 @@ namespace Bearded.Audio {
                 throw new ArgumentException(
                     "Cannot reclaim a source that is not part of this source pool", nameof(source));
             }
-            if (source.Disposed) {
-                throw new ArgumentException("Cannot reclaim a disposed source.", nameof(source));
-            }
             if (!source.FinishedPlaying) {
                 throw new ArgumentException("Cannot reclaim a source that has not finished playing", nameof(source));
+            }
+
+            reclaimSource(source);
+        }
+
+        private void reclaimSource(Source source) {
+            if (source.Disposed) {
+                throw new ArgumentException("Cannot reclaim a disposed source.", nameof(source));
             }
 
             resetSource(source);
