@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Bearded.Audio {
@@ -56,21 +57,10 @@ namespace Bearded.Audio {
         }
 
         /// <summary>
-        /// Gets an available source. Throws an exception if no source could be assigned.
-        /// </summary>
-        public Source GetSource() {
-            if (TryGetSource(out var source)) {
-                return source;
-            }
-
-            throw new InvalidOperationException("No available sources.");
-        }
-
-        /// <summary>
-        /// Attempts to get an available source. Will return false if no source could be assigned.
+        /// Attempts to get an available source. Returns false if no source could be assigned.
         /// </summary>
         public bool TryGetSource(out Source source) {
-            ensureAllocatedSourceAvailable();
+            ensureSourceAvailableIfPossible();
 
             if (hasAvailableAllocatedSource) {
                 source = availableSources.Dequeue();
@@ -81,7 +71,7 @@ namespace Bearded.Audio {
             return false;
         }
 
-        private void ensureAllocatedSourceAvailable() {
+        private void ensureSourceAvailableIfPossible() {
             if (hasAvailableAllocatedSource) {
                 return;
             }
@@ -92,10 +82,7 @@ namespace Bearded.Audio {
         }
 
         private void allocateNewSource() {
-            if (hasReachedCapacity) {
-                throw new InvalidOperationException(
-                    "Cannot allocate a new source because the pool has reached its capacity.");
-            }
+            Debug.Assert(!hasReachedCapacity, "Should not call allocateNewSource when pool has reached capacity.");
 
             var source = new Source();
             sources.Add(source);
