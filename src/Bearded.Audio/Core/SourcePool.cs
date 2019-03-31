@@ -134,20 +134,25 @@ namespace Bearded.Audio {
 
         public void Dispose() {
             releaseUnmanagedResources();
+            dispose();
             GC.SuppressFinalize(this);
         }
 
         ~SourcePool() {
-            releaseUnmanagedResources();
-        }
-
-        private void releaseUnmanagedResources() {
             // We need to keep in mind the fact the finalizer may run before the constructor finished.
             if (sources == null) return;
 
+            // We can't dispose unmanaged resources on the finalizer thread.
+            dispose();
+        }
+
+        private void releaseUnmanagedResources() {
             foreach (var source in sources) {
                 source.Dispose();
             }
+        }
+
+        private void dispose() {
             sources.Clear();
             availableSources?.Clear();
         }
