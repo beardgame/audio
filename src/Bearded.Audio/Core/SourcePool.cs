@@ -11,6 +11,7 @@ namespace Bearded.Audio {
     public sealed class SourcePool : IDisposable {
         private readonly List<Source> sources;
         private readonly Queue<Source> availableSources;
+        private bool disposed;
 
         private bool hasReachedCapacity => sources.Count == Capacity;
 
@@ -60,6 +61,7 @@ namespace Bearded.Audio {
         /// Attempts to get an available source. Returns false if no source could be assigned.
         /// </summary>
         public bool TryGetSource(out Source source) {
+            checkNotDisposed();
             ensureSourceAvailableIfPossible();
 
             if (hasAvailableAllocatedSource) {
@@ -93,6 +95,7 @@ namespace Bearded.Audio {
         /// Reclaims all sources that are not currently playing any sound.
         /// </summary>
         public void ReclaimAllFinishedSources() {
+            checkNotDisposed();
             foreach (var source in sources.Where(s => s.FinishedPlaying)) {
                 reclaimSource(source);
             }
@@ -104,6 +107,7 @@ namespace Bearded.Audio {
         /// <para>Sources to be reclaimed should no longer be playing and should not be disposed.</para>
         /// </summary>
         public void ReclaimSource(Source source) {
+            checkNotDisposed();
             if (source == null) {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -133,28 +137,22 @@ namespace Bearded.Audio {
         }
 
         public void Dispose() {
-            releaseUnmanagedResources();
-            dispose();
-            GC.SuppressFinalize(this);
-        }
+            if (disposed) return;
 
-        ~SourcePool() {
-            // We need to keep in mind the fact the finalizer may run before the constructor finished.
-            if (sources == null) return;
-
-            // We can't dispose unmanaged resources on the finalizer thread.
-            dispose();
-        }
-
-        private void releaseUnmanagedResources() {
             foreach (var source in sources) {
                 source.Dispose();
             }
+
+            sources.Clear();
+            availableSources.Clear();
+
+            disposed = true;
         }
 
-        private void dispose() {
-            sources.Clear();
-            availableSources?.Clear();
+        private void checkNotDisposed() {
+            if (disposed) {
+                throw new InvalidOperationException("Cannot use a SourcePool after disposing it.");
+            }
         }
     }
 }
