@@ -3,8 +3,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Bearded.Audio.Tests</RootNamespace>
     <AssemblyName>Bearded.Audio.Tests</AssemblyName>
-    <TargetFramework>net462</TargetFramework>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio.Tests\Debug\</OutputPath>
