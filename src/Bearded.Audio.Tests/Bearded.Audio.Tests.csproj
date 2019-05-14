@@ -14,8 +14,8 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
     <PackageReference Include="Moq" Version="4.10.0" />
-    <PackageReference Include="OpenTK" Version="2.0.0" />
-    <PackageReference Include="NVorbis" Version="0.8.5.0" />
+    <PackageReference Include="OpenTK" Version="3.0.1" />
+    <PackageReference Include="NVorbis" Version="0.8.6" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <ProjectReference Include="..\Bearded.Audio\Bearded.Audio.csproj">
       <Project>{da11432a-23eb-4719-adbb-137c7441ae47}</Project>
