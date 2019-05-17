@@ -3,20 +3,23 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Bearded.Audio</RootNamespace>
     <AssemblyName>Bearded.Audio</AssemblyName>
-    <TargetFramework>net462</TargetFramework>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
+    <Title>Bearded.Audio</Title>
+    <PackageProjectUrl>https://beardgame.github.io/audio/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/beardgame/audio/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/beardgame/audio</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio\Release\</OutputPath>
     <DocumentationFile>..\..\bin\Bearded.Audio\Release\Bearded.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="2.0.0" />
-    <PackageReference Include="NVorbis" Version="0.8.5.0" />
+    <PackageReference Include="OpenTK" Version="3.0.1" />
+    <PackageReference Include="NVorbis" Version="0.8.6" />
   </ItemGroup>
   <ItemGroup>
     <None Include="*.config" CopyToOutputDirectory="PreserveNewest" />

@@ -3,14 +3,12 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Bearded.Audio.Example</RootNamespace>
     <AssemblyName>Bearded.Audio.Example</AssemblyName>
-    <TargetFramework>net462</TargetFramework>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ApplicationIcon />
     <StartupObject />
+    <TargetFrameworks>net462;netcoreapp2.2</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio.Example\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio.Example\Release\</OutputPath>
