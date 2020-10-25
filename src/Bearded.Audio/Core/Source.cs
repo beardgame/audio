@@ -6,11 +6,10 @@ namespace Bearded.Audio {
     /// <summary>
     /// Class representing an OpenAL audio source.
     /// </summary>
-    public class Source : IDisposable {
+    public sealed class Source : IDisposable {
         private readonly ISourceService svc;
         private readonly int handle;
 
-        #region State
         /// <summary>
         /// Disposal state of this source.
         /// </summary>
@@ -35,9 +34,7 @@ namespace Bearded.Audio {
         /// Whether the source is finished playing all queued buffers.
         /// </summary>
         public bool FinishedPlaying => ProcessedBuffers >= QueuedBuffers && !looping;
-        #endregion
 
-        #region Properties
         private float gain, pitch;
         private bool looping;
         private Vector3 position, velocity;
@@ -83,9 +80,7 @@ namespace Bearded.Audio {
             get => velocity;
             set => svc.SetProperty(this, ALSource3f.Position, velocity = value);
         }
-        #endregion
 
-        #region Constructor
         /// <summary>
         /// Creates a new OpenAL source.
         /// </summary>
@@ -96,9 +91,7 @@ namespace Bearded.Audio {
             gain = 1;
             pitch = 1;
         }
-        #endregion
 
-        #region Buffers
         private void queueBuffersRaw(int bufferLength, int[] bufferIDs) {
             svc.QueueBuffers(this, bufferLength, bufferIDs);
         }
@@ -128,9 +121,7 @@ namespace Bearded.Audio {
         public void DequeueProcessedBuffers() {
             svc.UnqueueBuffers(this, ProcessedBuffers);
         }
-        #endregion
 
-        #region Controls
         /// <summary>
         /// Starts playing the source.
         /// </summary>
@@ -150,9 +141,7 @@ namespace Bearded.Audio {
         /// Rewinds the source.
         /// </summary>
         public void Rewind() => svc.Rewind(this);
-        #endregion
 
-        #region IDisposable implementation
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -166,9 +155,7 @@ namespace Bearded.Audio {
             svc.Delete(this);
             Disposed = true;
         }
-        #endregion
 
-        #region Operators
         /// <summary>
         /// Casts the source to an integer.
         /// </summary>
@@ -177,6 +164,5 @@ namespace Bearded.Audio {
         public static implicit operator int(Source source) {
             return source.handle;
         }
-        #endregion
     }
 }

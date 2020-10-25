@@ -42,7 +42,7 @@ namespace Bearded.Audio.Example {
             // A source could for example be an object in the game world that makes sounds.
             // Note that the number of sources existing simultaneously is limited.
             var source = new Source();
-            
+
             // Tell the source about the buffers it should play from.
             source.QueueBuffer(buffer);
 
@@ -62,7 +62,7 @@ namespace Bearded.Audio.Example {
 
             // Since we are done with this source, we dispose it. This clears up a slot for a new source.
             source.Dispose();
-            
+
             Console.WriteLine("Finished pew.");
         }
     }

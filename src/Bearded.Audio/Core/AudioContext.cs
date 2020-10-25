@@ -7,9 +7,8 @@ namespace Bearded.Audio {
     /// Main context for using any audio related code.
     /// Should be instantiated before using any of the library's code.
     /// </summary>
-    public class AudioContext : IDisposable
+    public sealed class AudioContext : IDisposable
     {
-        #region Singleton
         private static AudioContext instance;
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace Bearded.Audio {
 
             instance = new AudioContext();
         }
-        #endregion
 
         private readonly ALDevice device;
         private readonly ALContext ctx;
@@ -66,11 +64,9 @@ namespace Bearded.Audio {
             return deviceName;
         }
 
-        #region Helpers
-        
         // ReSharper disable MemberCanBeMadeStatic.Global
         // The following methods are non-static to force there being an AudioContext instance.
-        
+
         /// <summary>
         /// Checks if OpenAL is currently in an error state.
         /// </summary>
@@ -232,12 +228,9 @@ namespace Bearded.Audio {
             CheckErrors();
             return val;
         }
-        
-        // ReSharper restore MemberCanBeMadeStatic.Global
-        
-        #endregion
 
-        #region IDisposable Support
+        // ReSharper restore MemberCanBeMadeStatic.Global
+
         private bool isDisposed; // To detect redundant calls
 
         private void dispose(bool disposing) {
@@ -275,6 +268,5 @@ namespace Bearded.Audio {
             dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
     }
 }

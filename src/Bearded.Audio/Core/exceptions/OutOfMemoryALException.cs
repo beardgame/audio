@@ -4,7 +4,7 @@ namespace Bearded.Audio {
     /// <summary>
     /// Thrown when OpenAL runs out of memory.
     /// </summary>
-    public class OutOfMemoryALException : ALException {
+    public sealed class OutOfMemoryALException : ALException {
         /// <summary>
         /// Creates a new instance.
         /// </summary>

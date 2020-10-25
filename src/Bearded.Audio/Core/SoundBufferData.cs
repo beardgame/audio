@@ -7,14 +7,11 @@ namespace Bearded.Audio {
     /// <summary>
     /// Class representing sound data that can be loaded into OpenAL sound buffers.
     /// </summary>
-    public class SoundBufferData {
-        #region Members
+    public sealed class SoundBufferData {
         internal IList<short[]> Buffers { get; }
         internal ALFormat Format { get; }
         internal int SampleRate { get; }
-        #endregion
 
-        #region Constructor
         /// <summary>
         /// Creates a new sound buffer with the specified data.
         /// </summary>
@@ -26,9 +23,7 @@ namespace Bearded.Audio {
             Format = format;
             SampleRate = sampleRate;
         }
-        #endregion
 
-        #region Loading from files
         /// <summary>
         /// Extracts the bufferdata from an uncompressed wave-file.
         /// </summary>
@@ -101,9 +96,7 @@ namespace Bearded.Audio {
                 return new SoundBufferData(buffers, alFormat, sampleRate);
             }
         }
-        #endregion
 
-        #region Static helper functions
         private static void convertBuffer(byte[] inBuffer, short[] outBuffer, int length, int inOffset = 0) {
             for (int i = 0; i < length; i++) {
                 outBuffer[i] = BitConverter.ToInt16(inBuffer, inOffset + 2 * i);
@@ -117,6 +110,5 @@ namespace Bearded.Audio {
                 default: throw new NotSupportedException("The specified sound format is not supported.");
             }
         }
-        #endregion
     }
 }

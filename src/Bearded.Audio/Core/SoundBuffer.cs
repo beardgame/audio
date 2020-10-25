@@ -5,7 +5,7 @@ namespace Bearded.Audio {
     /// <summary>
     /// Class representing a group of OpenAL audio buffers.
     /// </summary>
-    public class SoundBuffer : IDisposable {
+    public sealed class SoundBuffer : IDisposable {
         private readonly IBufferService svc;
 
         /// <summary>
@@ -13,14 +13,11 @@ namespace Bearded.Audio {
         /// </summary>
         private readonly int[] handles;
 
-        #region State
         /// <summary>
         /// Disposal state of this buffer.
         /// </summary>
         public bool Disposed { get; private set; }
-        #endregion
 
-        #region Constructor
         /// <summary>
         /// Generates a new sound buffer of the given size.
         /// </summary>
@@ -38,9 +35,7 @@ namespace Bearded.Audio {
             : this(data.Buffers.Count) {
             FillBuffer(data);
         }
-        #endregion
 
-        #region Buffer filling
         private void fillBufferRaw(int index, short[] data, ALFormat format, int sampleRate) {
             if (index < 0 || index >= handles.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -72,9 +67,7 @@ namespace Bearded.Audio {
                 fillBufferRaw((index + i) % handles.Length, data.Buffers[i], data.Format, data.SampleRate);
             }
         }
-        #endregion
 
-        #region IDisposable implementation
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -85,9 +78,7 @@ namespace Bearded.Audio {
 
             Disposed = true;
         }
-        #endregion
 
-        #region Operators
         /// <summary>
         /// Casts the buffer to an integer array.
         /// </summary>
@@ -102,6 +93,5 @@ namespace Bearded.Audio {
         /// </summary>
         /// <param name="i">The index.</param>
         public int this[int i] => handles[i];
-        #endregion
     }
 }

@@ -4,7 +4,7 @@ using OpenTK.Mathematics;
 namespace Bearded.Audio {
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     class ListenerService : AudioService<IListenerService, ListenerService>, IListenerService {
-        
+
         public virtual float GetProperty(ALListenerf property) {
             AL.GetListener(property, out var value);
             Context.CheckErrors();

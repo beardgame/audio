@@ -1,10 +1,13 @@
-﻿namespace Bearded.Audio {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Bearded.Audio {
     abstract class AudioService<TService, TImplementation>
             where TImplementation : AudioService<TService, TImplementation>, TService, new()
             where TService : class {
-        
+
+        [MaybeNull]
         private static TService instance;
-        public static TService Instance => instance ?? (instance = new TImplementation());
+        public static TService Instance => instance ??= new TImplementation();
 
         protected readonly AudioContext Context;
 
