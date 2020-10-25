@@ -1,6 +1,6 @@
 ﻿using System;
-using OpenTK;
 using OpenTK.Audio.OpenAL;
+using OpenTK.Mathematics;
 
 namespace Bearded.Audio {
     /// <summary>

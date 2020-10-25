@@ -3,7 +3,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Bearded.Audio.Tests</RootNamespace>
     <AssemblyName>Bearded.Audio.Tests</AssemblyName>
-    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8</LangVersion>
+    <Nullable>warnings</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio.Tests\Debug\</OutputPath>
@@ -12,11 +14,10 @@
     <OutputPath>..\..\bin\Bearded.Audio.Tests\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.6.0" />
-    <PackageReference Include="Moq" Version="4.10.0" />
-    <PackageReference Include="OpenTK" Version="3.0.1" />
-    <PackageReference Include="NVorbis" Version="0.8.6" />
-    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Moq" Version="4.14.7" />
+    <PackageReference Include="NVorbis" Version="0.10.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
     <ProjectReference Include="..\Bearded.Audio\Bearded.Audio.csproj">
       <Project>{da11432a-23eb-4719-adbb-137c7441ae47}</Project>
       <Name>Bearded.Audio</Name>

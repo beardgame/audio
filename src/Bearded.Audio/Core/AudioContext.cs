@@ -1,6 +1,5 @@
 ﻿using System;
 using OpenTK.Audio.OpenAL;
-using ALContext = OpenTK.Audio.AudioContext;
 
 namespace Bearded.Audio {
     /// <inheritdoc />
@@ -40,10 +39,31 @@ namespace Bearded.Audio {
         }
         #endregion
 
+        private readonly ALDevice device;
         private readonly ALContext ctx;
 
         private AudioContext() {
-            ctx = new ALContext();
+            var deviceName = findDeviceName();
+            device = ALC.OpenDevice(deviceName);
+            ctx = ALC.CreateContext(device, (int[]) null!);
+            ALC.MakeContextCurrent(ctx);
+        }
+
+        private static string findDeviceName() {
+            // Start with the default device.
+            var deviceName = ALC.GetString(ALDevice.Null, AlcGetString.DefaultDeviceSpecifier);
+
+            // Find all remaining devices. Prefer OpenAL Soft if it exists.
+            var devices = ALC.GetStringList(GetEnumerationStringList.DeviceSpecifier);
+            foreach (var d in devices)
+            {
+                if (d.Contains("OpenAL Soft"))
+                {
+                    deviceName = d;
+                }
+            }
+
+            return deviceName;
         }
 
         #region Helpers
@@ -226,7 +246,9 @@ namespace Bearded.Audio {
                 // Dispose managed state (managed objects).
             }
 
-            ctx?.Dispose();
+            ALC.DestroyContext(ctx);
+            ALC.CloseDevice(device);
+
             isDisposed = true;
             instance = null;
         }

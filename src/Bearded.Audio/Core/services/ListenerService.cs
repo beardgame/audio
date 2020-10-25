@@ -1,5 +1,5 @@
-﻿using OpenTK;
-using OpenTK.Audio.OpenAL;
+﻿using OpenTK.Audio.OpenAL;
+using OpenTK.Mathematics;
 
 namespace Bearded.Audio {
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global

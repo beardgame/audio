@@ -3,12 +3,14 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Bearded.Audio</RootNamespace>
     <AssemblyName>Bearded.Audio</AssemblyName>
-    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
     <Title>Bearded.Audio</Title>
     <PackageProjectUrl>https://beardgame.github.io/audio/</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/beardgame/audio/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/beardgame/audio</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8</LangVersion>
+    <Nullable>warnings</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio\Debug\</OutputPath>
@@ -18,8 +20,8 @@
     <DocumentationFile>..\..\bin\Bearded.Audio\Release\Bearded.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="3.0.1" />
-    <PackageReference Include="NVorbis" Version="0.8.6" />
+    <PackageReference Include="NVorbis" Version="0.10.1" />
+    <PackageReference Include="OpenTK.OpenAL" Version="4.0.6" />
   </ItemGroup>
   <ItemGroup>
     <None Include="*.config" CopyToOutputDirectory="PreserveNewest" />
