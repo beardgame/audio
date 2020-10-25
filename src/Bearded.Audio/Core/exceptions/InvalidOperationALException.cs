@@ -1,10 +1,12 @@
 ﻿using OpenTK.Audio.OpenAL;
 
-namespace Bearded.Audio {
+namespace Bearded.Audio
+{
     /// <summary>
     /// Thrown when an invalid operation is executed.
     /// </summary>
-    public sealed class InvalidOperationALException : ALException {
+    public sealed class InvalidOperationALException : ALException
+    {
         /// <summary>
         /// Creates a new instance.
         /// </summary>

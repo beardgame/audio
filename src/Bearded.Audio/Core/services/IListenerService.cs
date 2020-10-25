@@ -1,8 +1,10 @@
 ﻿using OpenTK.Audio.OpenAL;
 using OpenTK.Mathematics;
 
-namespace Bearded.Audio {
-    interface IListenerService {
+namespace Bearded.Audio
+{
+    interface IListenerService
+    {
         float GetProperty(ALListenerf property);
         Vector3 GetProperty(ALListener3f property);
         void GetProperty(ALListenerfv property, out Vector3 at, out Vector3 up);

@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Threading;
 
-namespace Bearded.Audio.Example {
-    static class Program {
+namespace Bearded.Audio.Example
+{
+    static class Program
+    {
         // ReSharper disable once InconsistentNaming
-        static void Main(string[] args) {
+        private static void Main(string[] args)
+        {
             // Audio context always has to be initialized before any audio code.
             AudioContext.Initialize();
 
             Console.WriteLine("Press [space] to play pew. Press [escape] to exit.");
 
-            while (true) {
+            while (true)
+            {
                 var key = Console.ReadKey();
 
-                if (key.Key == ConsoleKey.Escape) {
+                if (key.Key == ConsoleKey.Escape)
+                {
                     break;
                 }
 
-                if (key.Key == ConsoleKey.Spacebar) {
+                if (key.Key == ConsoleKey.Spacebar)
+                {
                     playPewSound();
                 }
             }
@@ -26,7 +32,8 @@ namespace Bearded.Audio.Example {
             AudioContext.Instance.Dispose();
         }
 
-        private static void playPewSound() {
+        private static void playPewSound()
+        {
             Console.WriteLine("Playing pew.");
 
             // Load the data from file into memory.
@@ -50,7 +57,8 @@ namespace Bearded.Audio.Example {
             source.Play();
 
             // Wait until the source finishes playing all the buffers.
-            while (!source.FinishedPlaying) {
+            while (!source.FinishedPlaying)
+            {
                 Thread.Sleep(100);
             }
 

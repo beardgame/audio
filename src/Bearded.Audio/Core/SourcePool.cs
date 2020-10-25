@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Bearded.Audio {
+namespace Bearded.Audio
+{
     /// <summary>
     /// Represents a pool of sources that can be reused to prevent continuous allocation and deallocation, and stops
     /// the program from using more sources than allowed by the sound driver.
     /// </summary>
-    public sealed class SourcePool : IDisposable {
+    public sealed class SourcePool : IDisposable
+    {
         private readonly List<Source> sources;
         private readonly Queue<Source> availableSources;
         private bool disposed;
@@ -31,10 +33,12 @@ namespace Bearded.Audio {
         /// Creates a new source pool with the specified number of sources, and eagerly allocates the sources to this
         /// pool.
         /// </summary>
-        public static SourcePool CreateInstanceAndAllocateSources(int numSources) {
+        public static SourcePool CreateInstanceAndAllocateSources(int numSources)
+        {
             var sourcePool = CreateInstance(numSources);
 
-            for (var i = 0; i < numSources; i++) {
+            for (var i = 0; i < numSources; i++)
+            {
                 sourcePool.allocateNewSource();
             }
 
@@ -44,10 +48,15 @@ namespace Bearded.Audio {
         /// <summary>
         /// Creates a new source pool.
         /// </summary>
-        public static SourcePool CreateInstance(int numSources) => new SourcePool(numSources);
+        public static SourcePool CreateInstance(int numSources)
+        {
+            return new SourcePool(numSources);
+        }
 
-        private SourcePool(int numSources) {
-            if (numSources <= 0) {
+        private SourcePool(int numSources)
+        {
+            if (numSources <= 0)
+            {
                 throw new ArgumentException(
                     "Cannot create a source pool with a non-positive number of sources", nameof(numSources));
             }
@@ -60,11 +69,13 @@ namespace Bearded.Audio {
         /// <summary>
         /// Attempts to get an available source. Returns false if no source could be assigned.
         /// </summary>
-        public bool TryGetSource(out Source source) {
+        public bool TryGetSource(out Source source)
+        {
             checkNotDisposed();
             ensureSourceAvailableIfPossible();
 
-            if (hasAvailableAllocatedSource) {
+            if (hasAvailableAllocatedSource)
+            {
                 source = availableSources.Dequeue();
                 return true;
             }
@@ -73,17 +84,21 @@ namespace Bearded.Audio {
             return false;
         }
 
-        private void ensureSourceAvailableIfPossible() {
-            if (hasAvailableAllocatedSource) {
+        private void ensureSourceAvailableIfPossible()
+        {
+            if (hasAvailableAllocatedSource)
+            {
                 return;
             }
 
-            if (!hasReachedCapacity) {
+            if (!hasReachedCapacity)
+            {
                 allocateNewSource();
             }
         }
 
-        private void allocateNewSource() {
+        private void allocateNewSource()
+        {
             Debug.Assert(!hasReachedCapacity, "Should not call allocateNewSource when pool has reached capacity.");
 
             var source = new Source();
@@ -94,9 +109,11 @@ namespace Bearded.Audio {
         /// <summary>
         /// Reclaims all sources that are not currently playing any sound.
         /// </summary>
-        public void ReclaimAllFinishedSources() {
+        public void ReclaimAllFinishedSources()
+        {
             checkNotDisposed();
-            foreach (var source in sources.Where(s => s.FinishedPlaying)) {
+            foreach (var source in sources.Where(s => s.FinishedPlaying))
+            {
                 reclaimSource(source);
             }
         }
@@ -106,24 +123,32 @@ namespace Bearded.Audio {
         ///
         /// <para>Sources to be reclaimed should no longer be playing and should not be disposed.</para>
         /// </summary>
-        public void ReclaimSource(Source source) {
+        public void ReclaimSource(Source source)
+        {
             checkNotDisposed();
-            if (source == null) {
+            if (source == null)
+            {
                 throw new ArgumentNullException(nameof(source));
             }
-            if (!sources.Contains(source)) {
+
+            if (!sources.Contains(source))
+            {
                 throw new ArgumentException(
                     "Cannot reclaim a source that is not part of this source pool", nameof(source));
             }
-            if (!source.FinishedPlaying) {
+
+            if (!source.FinishedPlaying)
+            {
                 throw new ArgumentException("Cannot reclaim a source that has not finished playing", nameof(source));
             }
 
             reclaimSource(source);
         }
 
-        private void reclaimSource(Source source) {
-            if (source.Disposed) {
+        private void reclaimSource(Source source)
+        {
+            if (source.Disposed)
+            {
                 throw new ArgumentException("Cannot reclaim a disposed source.", nameof(source));
             }
 
@@ -131,15 +156,21 @@ namespace Bearded.Audio {
             availableSources.Enqueue(source);
         }
 
-        private static void resetSource(Source source) {
+        private static void resetSource(Source source)
+        {
             source.DequeueProcessedBuffers();
             source.Rewind();
         }
 
-        public void Dispose() {
-            if (disposed) return;
+        public void Dispose()
+        {
+            if (disposed)
+            {
+                return;
+            }
 
-            foreach (var source in sources) {
+            foreach (var source in sources)
+            {
                 source.Dispose();
             }
 
@@ -149,8 +180,10 @@ namespace Bearded.Audio {
             disposed = true;
         }
 
-        private void checkNotDisposed() {
-            if (disposed) {
+        private void checkNotDisposed()
+        {
+            if (disposed)
+            {
                 throw new InvalidOperationException("Cannot use a SourcePool after disposing it.");
             }
         }

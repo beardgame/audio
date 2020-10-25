@@ -1,10 +1,12 @@
 ﻿using OpenTK.Audio.OpenAL;
 
-namespace Bearded.Audio {
+namespace Bearded.Audio
+{
     /// <summary>
     /// Thrown when a variable is set to an invalid value in OpenAL.
     /// </summary>
-    public sealed class InvalidValueALException : ALException {
+    public sealed class InvalidValueALException : ALException
+    {
         /// <summary>
         /// Creates a new instance.
         /// </summary>

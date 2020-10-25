@@ -2,11 +2,13 @@
 using OpenTK.Audio.OpenAL;
 using OpenTK.Mathematics;
 
-namespace Bearded.Audio {
+namespace Bearded.Audio
+{
     /// <summary>
     /// Class representing an OpenAL audio source.
     /// </summary>
-    public sealed class Source : IDisposable {
+    public sealed class Source : IDisposable
+    {
         private readonly ISourceService svc;
         private readonly int handle;
 
@@ -42,7 +44,8 @@ namespace Bearded.Audio {
         /// <summary>
         /// The volume at which the source plays its buffers.
         /// </summary>
-        public float Gain {
+        public float Gain
+        {
             get => gain;
             set => svc.SetProperty(this, ALSourcef.Gain, gain = value);
         }
@@ -50,7 +53,8 @@ namespace Bearded.Audio {
         /// <summary>
         /// The pitch at which the source plays its buffers.
         /// </summary>
-        public float Pitch {
+        public float Pitch
+        {
             get => pitch;
             set => svc.SetProperty(this, ALSourcef.Pitch, pitch = value);
         }
@@ -58,7 +62,8 @@ namespace Bearded.Audio {
         /// <summary>
         /// Whether the source should repeat itself or not.
         /// </summary>
-        public bool Looping {
+        public bool Looping
+        {
             get => looping;
             set => svc.SetProperty(this, ALSourceb.Looping, looping = value);
         }
@@ -67,7 +72,8 @@ namespace Bearded.Audio {
         /// The position of the audio source in 3D space.
         /// </summary>
         /// <remarks>With the default listener, OpenAL uses a right hand coordinate system, with x pointing right, y pointing up, and z pointing towards the viewer.</remarks>
-        public Vector3 Position {
+        public Vector3 Position
+        {
             get => position;
             set => svc.SetProperty(this, ALSource3f.Position, position = value);
         }
@@ -76,7 +82,8 @@ namespace Bearded.Audio {
         /// The velocity of the audio source in 3D space.
         /// </summary>
         /// <remarks>With the default listener, OpenAL uses a right hand coordinate system, with x pointing right, y pointing up, and z pointing towards the viewer.</remarks>
-        public Vector3 Velocity {
+        public Vector3 Velocity
+        {
             get => velocity;
             set => svc.SetProperty(this, ALSource3f.Position, velocity = value);
         }
@@ -84,7 +91,8 @@ namespace Bearded.Audio {
         /// <summary>
         /// Creates a new OpenAL source.
         /// </summary>
-        public Source() {
+        public Source()
+        {
             svc = SourceService.Instance;
             handle = svc.Generate();
 
@@ -92,7 +100,8 @@ namespace Bearded.Audio {
             pitch = 1;
         }
 
-        private void queueBuffersRaw(int bufferLength, int[] bufferIDs) {
+        private void queueBuffersRaw(int bufferLength, int[] bufferIDs)
+        {
             svc.QueueBuffers(this, bufferLength, bufferIDs);
         }
 
@@ -100,17 +109,21 @@ namespace Bearded.Audio {
         /// Queues a sound buffer to be played by this source.
         /// </summary>
         /// <param name="buffer"></param>
-        public void QueueBuffer(SoundBuffer buffer) {
-            var handles = (int[])buffer;
+        public void QueueBuffer(SoundBuffer buffer)
+        {
+            var handles = (int[]) buffer;
             queueBuffersRaw(handles.Length, handles);
         }
 
         /// <summary>
         /// Removes all the buffers from the source.
         /// </summary>
-        public void DequeueBuffers() {
+        public void DequeueBuffers()
+        {
             if (QueuedBuffers == 0)
+            {
                 return;
+            }
 
             svc.UnqueueBuffers(this, QueuedBuffers);
         }
@@ -118,39 +131,57 @@ namespace Bearded.Audio {
         /// <summary>
         /// Removes all the processed buffers from the source.
         /// </summary>
-        public void DequeueProcessedBuffers() {
+        public void DequeueProcessedBuffers()
+        {
             svc.UnqueueBuffers(this, ProcessedBuffers);
         }
 
         /// <summary>
         /// Starts playing the source.
         /// </summary>
-        public void Play() => svc.Play(this);
+        public void Play()
+        {
+            svc.Play(this);
+        }
 
         /// <summary>
         /// Pauses playing the source.
         /// </summary>
-        public void Pause() => svc.Pause(this);
+        public void Pause()
+        {
+            svc.Pause(this);
+        }
 
         /// <summary>
         /// Stops playing the source.
         /// </summary>
-        public void Stop() => svc.Stop(this);
+        public void Stop()
+        {
+            svc.Stop(this);
+        }
 
         /// <summary>
         /// Rewinds the source.
         /// </summary>
-        public void Rewind() => svc.Rewind(this);
+        public void Rewind()
+        {
+            svc.Rewind(this);
+        }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             if (Disposed)
+            {
                 return;
+            }
 
             if (State != ALSourceState.Stopped)
+            {
                 Stop();
+            }
 
             svc.Delete(this);
             Disposed = true;
@@ -161,7 +192,8 @@ namespace Bearded.Audio {
         /// </summary>
         /// <param name="source">The source that should be casted.</param>
         /// <returns>The OpenAL handle of the source.</returns>
-        public static implicit operator int(Source source) {
+        public static implicit operator int(Source source)
+        {
             return source.handle;
         }
     }

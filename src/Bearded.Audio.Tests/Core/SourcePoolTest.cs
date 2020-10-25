@@ -3,18 +3,22 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace Bearded.Audio.Tests {
-    public sealed class SourcePoolTest {
+namespace Bearded.Audio.Tests
+{
+    public sealed class SourcePoolTest
+    {
         private readonly Mock<ISourceService> svcMock;
 
-        public SourcePoolTest() {
+        public SourcePoolTest()
+        {
             svcMock = new Mock<ISourceService>();
             SourceService.SetTestInstance(svcMock.Object);
             BufferService.SetTestInstance(new Mock<IBufferService>().Object);
         }
 
         [Fact]
-        public void CreateInstanceAndAllocateSources_CreatesInstanceWithCorrectCapacity() {
+        public void CreateInstanceAndAllocateSources_CreatesInstanceWithCorrectCapacity()
+        {
             const int numSources = 10;
 
             var instance = SourcePool.CreateInstanceAndAllocateSources(numSources);
@@ -23,21 +27,24 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void CreateInstanceAndAllocateSources_ThrowsExceptionForZeroCapacity() {
+        public void CreateInstanceAndAllocateSources_ThrowsExceptionForZeroCapacity()
+        {
             Action createInstanceAndAllocateSources = () => SourcePool.CreateInstanceAndAllocateSources(0);
 
             createInstanceAndAllocateSources.Should().Throw<ArgumentException>();
         }
 
         [Fact]
-        public void CreateInstanceAndAllocateSources_ThrowsExceptionForNegativeCapacity() {
+        public void CreateInstanceAndAllocateSources_ThrowsExceptionForNegativeCapacity()
+        {
             Action createInstanceAndAllocateSources = () => SourcePool.CreateInstanceAndAllocateSources(-42);
 
             createInstanceAndAllocateSources.Should().Throw<ArgumentException>();
         }
 
         [Fact]
-        public void CreateInstanceAndAllocateSources_ImmediatelyAllocatesSources() {
+        public void CreateInstanceAndAllocateSources_ImmediatelyAllocatesSources()
+        {
             const int numSources = 7;
 
             SourcePool.CreateInstanceAndAllocateSources(numSources);
@@ -46,7 +53,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void CreateInstance_CreatesInstanceWithCorrectCapacity() {
+        public void CreateInstance_CreatesInstanceWithCorrectCapacity()
+        {
             const int numSources = 19;
 
             var instance = SourcePool.CreateInstance(numSources);
@@ -55,21 +63,24 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void CreateInstance_ThrowsExceptionForZeroCapacity() {
+        public void CreateInstance_ThrowsExceptionForZeroCapacity()
+        {
             Action createInstance = () => SourcePool.CreateInstance(0);
 
             createInstance.Should().Throw<ArgumentException>();
         }
 
         [Fact]
-        public void CreateInstance_ThrowsExceptionForNegativeCapacity() {
+        public void CreateInstance_ThrowsExceptionForNegativeCapacity()
+        {
             Action createInstance = () => SourcePool.CreateInstance(-32);
 
             createInstance.Should().Throw<ArgumentException>();
         }
 
         [Fact]
-        public void CreateInstanceAndAllocateSources_DoesNotImmediatelyAllocateSources() {
+        public void CreateInstanceAndAllocateSources_DoesNotImmediatelyAllocateSources()
+        {
             const int numSources = 4;
 
             SourcePool.CreateInstance(numSources);
@@ -78,7 +89,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void TryGetSource_ReturnsTrueIfASourceIsAvailable() {
+        public void TryGetSource_ReturnsTrueIfASourceIsAvailable()
+        {
             var instance = SourcePool.CreateInstance(1);
 
             var result = instance.TryGetSource(out _);
@@ -87,7 +99,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void TryGetSource_ReturnsASource() {
+        public void TryGetSource_ReturnsASource()
+        {
             var instance = SourcePool.CreateInstance(1);
 
             instance.TryGetSource(out var source);
@@ -96,7 +109,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void TryGetSource_AllocatesNewSourceIfNoneAllocated() {
+        public void TryGetSource_AllocatesNewSourceIfNoneAllocated()
+        {
             var instance = SourcePool.CreateInstance(1);
 
             svcMock.Invocations.Clear();
@@ -107,7 +121,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void TryGetSource_ReturnsFalseIfThereIsNoAvailableSource() {
+        public void TryGetSource_ReturnsFalseIfThereIsNoAvailableSource()
+        {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out _);
 
@@ -117,7 +132,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void TryGetSource_ShouldUseUpCapacity() {
+        public void TryGetSource_ShouldUseUpCapacity()
+        {
             var instance = SourcePool.CreateInstance(1);
 
             instance.TryGetSource(out _);
@@ -126,7 +142,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimSource_ThrowsOnNull() {
+        public void ReclaimSource_ThrowsOnNull()
+        {
             var instance = SourcePool.CreateInstance(1);
 
             Action reclaimSource = () => instance.ReclaimSource(null);
@@ -135,7 +152,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimSource_ThrowsForDisposedSource() {
+        public void ReclaimSource_ThrowsForDisposedSource()
+        {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
             source.Dispose();
@@ -146,7 +164,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimSource_ThrowsForSourceNotInSourcePool() {
+        public void ReclaimSource_ThrowsForSourceNotInSourcePool()
+        {
             var instance = SourcePool.CreateInstance(1);
             var source = new Source();
 
@@ -156,7 +175,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimSource_ThrowsIfSourceIsStillPlaying() {
+        public void ReclaimSource_ThrowsIfSourceIsStillPlaying()
+        {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
             source.Looping = true;
@@ -167,7 +187,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimSource_MakesSourceAvailableForReuse() {
+        public void ReclaimSource_MakesSourceAvailableForReuse()
+        {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
 
@@ -179,7 +200,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimSource_ShouldRewindSource() {
+        public void ReclaimSource_ShouldRewindSource()
+        {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
             source.Play();
@@ -192,7 +214,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimAllFinishedSources_ReclaimsOnlyFinishedSources() {
+        public void ReclaimAllFinishedSources_ReclaimsOnlyFinishedSources()
+        {
             var instance = SourcePool.CreateInstance(2);
             instance.TryGetSource(out var source1);
             instance.TryGetSource(out var source2);
@@ -207,7 +230,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimAllFinishedSources_ThrowsIfAnySourceDisposed() {
+        public void ReclaimAllFinishedSources_ThrowsIfAnySourceDisposed()
+        {
             var instance = SourcePool.CreateInstance(2);
             instance.TryGetSource(out var source1);
             instance.TryGetSource(out _);
@@ -219,7 +243,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void ReclaimAllFinishedSources_RewindsReclaimedSource() {
+        public void ReclaimAllFinishedSources_RewindsReclaimedSource()
+        {
             var instance = SourcePool.CreateInstance(2);
             instance.TryGetSource(out var source1);
             instance.TryGetSource(out var source2);
@@ -233,7 +258,8 @@ namespace Bearded.Audio.Tests {
         }
 
         [Fact]
-        public void Dispose_DisposesAllSources() {
+        public void Dispose_DisposesAllSources()
+        {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
 

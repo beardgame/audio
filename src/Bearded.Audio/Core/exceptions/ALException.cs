@@ -1,11 +1,13 @@
 ﻿using System;
 using OpenTK.Audio.OpenAL;
 
-namespace Bearded.Audio {
+namespace Bearded.Audio
+{
     /// <summary>
     /// Generic OpenAL exception.
     /// </summary>
-    public class ALException : Exception {
+    public class ALException : Exception
+    {
         /// <summary>
         /// The OpenAL error type.
         /// </summary>
@@ -16,7 +18,8 @@ namespace Bearded.Audio {
         /// </summary>
         /// <param name="type">The OpenAL error type.</param>
         /// <param name="message">The exception message.</param>
-        protected ALException(ALError type, string message) : base(message) {
+        protected ALException(ALError type, string message) : base(message)
+        {
             Type = type;
         }
     }

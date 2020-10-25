@@ -1,6 +1,7 @@
 ﻿using OpenTK.Mathematics;
 
-namespace Bearded.Audio {
+namespace Bearded.Audio
+{
     /// <summary>
     /// A listener interface.
     /// Every object implementing this interface can be used as audio listener in OpenAL.
@@ -8,7 +9,8 @@ namespace Bearded.Audio {
     /// <remarks>
     /// It is recommended to use <see cref="Listener"/> instead whenever possible.
     /// </remarks>
-    public interface IListener {
+    public interface IListener
+    {
         /// <summary>
         /// The position of the listener.
         /// </summary>

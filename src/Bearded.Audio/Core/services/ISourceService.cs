@@ -1,8 +1,10 @@
 ﻿using OpenTK.Audio.OpenAL;
 using OpenTK.Mathematics;
 
-namespace Bearded.Audio {
-    interface ISourceService {
+namespace Bearded.Audio
+{
+    interface ISourceService
+    {
         void Delete(int handle);
         int Generate();
         bool GetProperty(int handle, ALSourceb property);

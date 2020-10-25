@@ -1,10 +1,12 @@
 ﻿using OpenTK.Audio.OpenAL;
 
-namespace Bearded.Audio {
+namespace Bearded.Audio
+{
     /// <summary>
     /// Thrown when OpenAL runs out of memory.
     /// </summary>
-    public sealed class OutOfMemoryALException : ALException {
+    public sealed class OutOfMemoryALException : ALException
+    {
         /// <summary>
         /// Creates a new instance.
         /// </summary>
