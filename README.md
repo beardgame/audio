@@ -1,7 +1,6 @@
 # Bearded.Audio
 
-[![Build Status](https://travis-ci.org/beardgame/audio.svg?branch=develop)](https://travis-ci.org/beardgame/audio)
-[![Build status](https://ci.appveyor.com/api/projects/status/5io5jwkdg995p5o0?svg=true)](https://ci.appveyor.com/project/tomrijnbeek/tomrijnbeek-audio)
+[![Build & test status](https://github.com/beardgame/audio/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/beardgame/audio/actions/workflows/dotnet-build.yml)
 
 ## Introduction
 
