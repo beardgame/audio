@@ -8,8 +8,8 @@
     <PackageLicenseUrl>https://github.com/beardgame/audio/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/beardgame/audio</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>8</LangVersion>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>9</LangVersion>
     <Nullable>warnings</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
