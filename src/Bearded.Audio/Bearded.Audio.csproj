@@ -20,7 +20,7 @@
     <DocumentationFile>..\..\bin\Bearded.Audio\Release\Bearded.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NVorbis" Version="0.10.1" />
+    <PackageReference Include="NVorbis" Version="0.10.3" />
     <PackageReference Include="OpenTK.OpenAL" Version="4.6.7" />
   </ItemGroup>
   <ItemGroup>
