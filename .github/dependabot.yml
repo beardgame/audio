@@ -9,7 +9,7 @@ updates:
       interval: "daily"
     commit-message:
       prefix: "⬆"
-     assignees:
+    assignees:
       - "tomrijnbeek"
 
   - package-ecosystem: "github-actions"
@@ -20,5 +20,5 @@ updates:
       interval: "daily"
     commit-message:
       prefix: "⬆"
-     assignees:
+    assignees:
       - "tomrijnbeek"
