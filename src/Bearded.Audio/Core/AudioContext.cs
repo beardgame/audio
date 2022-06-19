@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
@@ -8,6 +9,7 @@ namespace Bearded.Audio;
 /// Main context for using any audio related code.
 /// Should be instantiated before using any of the library's code.
 /// </summary>
+[PublicAPI]
 public sealed class AudioContext : IDisposable
 {
     private static AudioContext? instance;

@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using JetBrains.Annotations;
+using OpenTK.Mathematics;
 
 namespace Bearded.Audio;
 
@@ -10,6 +11,7 @@ namespace Bearded.Audio;
 /// of the interface, since it makes sure that the ListenerUpdated event
 /// is called whenever one of its properties is updated.
 /// </remarks>
+[PublicAPI]
 public abstract class Listener : IListener
 {
     /// <summary>

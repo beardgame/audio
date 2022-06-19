@@ -1,8 +1,10 @@
-﻿using OpenTK.Audio.OpenAL;
+﻿using JetBrains.Annotations;
+using OpenTK.Audio.OpenAL;
 using OpenTK.Mathematics;
 
 namespace Bearded.Audio;
 
+[PublicAPI]
 public static class ALListener
 {
     private static IListener? currentListener;

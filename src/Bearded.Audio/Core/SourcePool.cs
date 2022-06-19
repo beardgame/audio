@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Bearded.Audio;
 
@@ -10,6 +11,7 @@ namespace Bearded.Audio;
 /// Represents a pool of sources that can be reused to prevent continuous allocation and deallocation, and stops
 /// the program from using more sources than allowed by the sound driver.
 /// </summary>
+[PublicAPI]
 public sealed class SourcePool : IDisposable
 {
     private readonly List<Source> sources;

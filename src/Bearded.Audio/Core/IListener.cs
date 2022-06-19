@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using JetBrains.Annotations;
+using OpenTK.Mathematics;
 
 namespace Bearded.Audio;
 
@@ -9,6 +10,7 @@ namespace Bearded.Audio;
 /// <remarks>
 /// It is recommended to use <see cref="Listener"/> instead whenever possible.
 /// </remarks>
+[PublicAPI]
 public interface IListener
 {
     /// <summary>

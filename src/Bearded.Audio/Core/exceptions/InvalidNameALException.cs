@@ -1,10 +1,12 @@
-﻿using OpenTK.Audio.OpenAL;
+﻿using JetBrains.Annotations;
+using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
 
 /// <summary>
 /// Thrown when a specified name or handle is invalid (e.g. does not exist).
 /// </summary>
+[PublicAPI]
 public sealed class InvalidNameALException : ALException
 {
     /// <summary>

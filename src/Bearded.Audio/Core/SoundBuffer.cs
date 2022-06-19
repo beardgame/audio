@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
@@ -6,6 +7,7 @@ namespace Bearded.Audio;
 /// <summary>
 /// Class representing a group of OpenAL audio buffers.
 /// </summary>
+[PublicAPI]
 public sealed class SoundBuffer : IDisposable
 {
     /// <summary>

@@ -1,10 +1,12 @@
-﻿using OpenTK.Audio.OpenAL;
+﻿using JetBrains.Annotations;
+using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
 
 /// <summary>
 /// Thrown when a specified enum value is invalid in OpenAL.
 /// </summary>
+[PublicAPI]
 public sealed class InvalidEnumALException : ALException
 {
     /// <summary>

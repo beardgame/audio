@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using JetBrains.Annotations;
 using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
@@ -8,6 +9,7 @@ namespace Bearded.Audio;
 /// <summary>
 /// Class representing sound data that can be loaded into OpenAL sound buffers.
 /// </summary>
+[PublicAPI]
 public sealed class SoundBufferData
 {
     internal IList<short[]> Buffers { get; }

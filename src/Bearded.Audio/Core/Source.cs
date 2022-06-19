@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using OpenTK.Audio.OpenAL;
 using OpenTK.Mathematics;
 
@@ -7,6 +8,7 @@ namespace Bearded.Audio;
 /// <summary>
 /// Class representing an OpenAL audio source.
 /// </summary>
+[PublicAPI]
 public sealed class Source : IDisposable
 {
     private readonly int handle;

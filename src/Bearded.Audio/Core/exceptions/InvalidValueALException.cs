@@ -1,10 +1,12 @@
-﻿using OpenTK.Audio.OpenAL;
+﻿using JetBrains.Annotations;
+using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
 
 /// <summary>
 /// Thrown when a variable is set to an invalid value in OpenAL.
 /// </summary>
+[PublicAPI]
 public sealed class InvalidValueALException : ALException
 {
     /// <summary>

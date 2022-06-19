@@ -1,10 +1,12 @@
-﻿using OpenTK.Audio.OpenAL;
+﻿using JetBrains.Annotations;
+using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
 
 /// <summary>
 /// Thrown when OpenAL runs out of memory.
 /// </summary>
+[PublicAPI]
 public sealed class OutOfMemoryALException : ALException
 {
     /// <summary>

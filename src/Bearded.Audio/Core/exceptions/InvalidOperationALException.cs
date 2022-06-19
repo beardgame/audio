@@ -1,10 +1,12 @@
-﻿using OpenTK.Audio.OpenAL;
+﻿using JetBrains.Annotations;
+using OpenTK.Audio.OpenAL;
 
 namespace Bearded.Audio;
 
 /// <summary>
 /// Thrown when an invalid operation is executed.
 /// </summary>
+[PublicAPI]
 public sealed class InvalidOperationALException : ALException
 {
     /// <summary>
