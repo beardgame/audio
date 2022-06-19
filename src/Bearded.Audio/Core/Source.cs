@@ -9,7 +9,6 @@ namespace Bearded.Audio;
 /// </summary>
 public sealed class Source : IDisposable
 {
-    private readonly ISourceService svc;
     private readonly int handle;
 
     /// <summary>
@@ -20,24 +19,41 @@ public sealed class Source : IDisposable
     /// <summary>
     /// The current state of this source.
     /// </summary>
-    public ALSourceState State => svc.GetState(this);
+    public ALSourceState State => AudioContext.Instance.Eval(AL.GetSourceState, (int) this);
 
     /// <summary>
     /// The amount of buffers the source has already played.
     /// </summary>
-    public int ProcessedBuffers => svc.GetProperty(this, ALGetSourcei.BuffersProcessed);
+    public int ProcessedBuffers
+    {
+        get
+        {
+            AL.GetSource((int) this, ALGetSourcei.BuffersProcessed, out var value);
+            AudioContext.Instance.CheckErrors();
+            return value;
+        }
+    }
 
     /// <summary>
     /// The total amount of buffers to source has queued to play.
     /// </summary>
-    public int QueuedBuffers => svc.GetProperty(this, ALGetSourcei.BuffersQueued);
+    public int QueuedBuffers
+    {
+        get
+        {
+            AL.GetSource((int) this, ALGetSourcei.BuffersQueued, out var value);
+            AudioContext.Instance.CheckErrors();
+            return value;
+        }
+    }
 
     /// <summary>
     /// Whether the source is finished playing all queued buffers.
     /// </summary>
     public bool FinishedPlaying => ProcessedBuffers >= QueuedBuffers && !looping;
 
-    private float gain, pitch;
+    private float gain;
+    private float pitch;
     private bool looping;
     private Vector3 position, velocity;
 
@@ -47,7 +63,11 @@ public sealed class Source : IDisposable
     public float Gain
     {
         get => gain;
-        set => svc.SetProperty(this, ALSourcef.Gain, gain = value);
+        set
+        {
+            gain = value;
+            AudioContext.Instance.Call(AL.Source, (int) this, ALSourcef.Gain, gain);
+        }
     }
 
     /// <summary>
@@ -56,7 +76,11 @@ public sealed class Source : IDisposable
     public float Pitch
     {
         get => pitch;
-        set => svc.SetProperty(this, ALSourcef.Pitch, pitch = value);
+        set
+        {
+            pitch = value;
+            AudioContext.Instance.Call(AL.Source, (int) this, ALSourcef.Pitch, pitch);
+        }
     }
 
     /// <summary>
@@ -65,7 +89,11 @@ public sealed class Source : IDisposable
     public bool Looping
     {
         get => looping;
-        set => svc.SetProperty(this, ALSourceb.Looping, looping = value);
+        set
+        {
+            looping = value;
+            AudioContext.Instance.Call(AL.Source, (int) this, ALSourceb.Looping, looping);
+        }
     }
 
     /// <summary>
@@ -75,7 +103,11 @@ public sealed class Source : IDisposable
     public Vector3 Position
     {
         get => position;
-        set => svc.SetProperty(this, ALSource3f.Position, position = value);
+        set
+        {
+            position = value;
+            AudioContext.Instance.Call(() => AL.Source((int) this, ALSource3f.Position, ref position));
+        }
     }
 
     /// <summary>
@@ -85,7 +117,11 @@ public sealed class Source : IDisposable
     public Vector3 Velocity
     {
         get => velocity;
-        set => svc.SetProperty(this, ALSource3f.Position, velocity = value);
+        set
+        {
+            velocity = value;
+            AudioContext.Instance.Call(() => AL.Source((int) this, ALSource3f.Position, ref velocity));
+        }
     }
 
     /// <summary>
@@ -93,8 +129,7 @@ public sealed class Source : IDisposable
     /// </summary>
     public Source()
     {
-        svc = SourceService.Instance;
-        handle = svc.Generate();
+        handle = AudioContext.Instance.Eval(AL.GenSource);
 
         gain = 1;
         pitch = 1;
@@ -102,7 +137,7 @@ public sealed class Source : IDisposable
 
     private void queueBuffersRaw(int bufferLength, int[] bufferIDs)
     {
-        svc.QueueBuffers(this, bufferLength, bufferIDs);
+        AudioContext.Instance.Call(AL.SourceQueueBuffers, (int) this, bufferLength, bufferIDs);
     }
 
     /// <summary>
@@ -125,7 +160,7 @@ public sealed class Source : IDisposable
             return;
         }
 
-        svc.UnqueueBuffers(this, QueuedBuffers);
+        AudioContext.Instance.Eval(AL.SourceUnqueueBuffers, (int) this, QueuedBuffers);
     }
 
     /// <summary>
@@ -133,7 +168,7 @@ public sealed class Source : IDisposable
     /// </summary>
     public void DequeueProcessedBuffers()
     {
-        svc.UnqueueBuffers(this, ProcessedBuffers);
+        AudioContext.Instance.Eval(AL.SourceUnqueueBuffers, (int) this, ProcessedBuffers);
     }
 
     /// <summary>
@@ -141,7 +176,7 @@ public sealed class Source : IDisposable
     /// </summary>
     public void Play()
     {
-        svc.Play(this);
+        AudioContext.Instance.Call(AL.SourcePlay, (int) this);
     }
 
     /// <summary>
@@ -149,7 +184,7 @@ public sealed class Source : IDisposable
     /// </summary>
     public void Pause()
     {
-        svc.Pause(this);
+        AudioContext.Instance.Call(AL.SourcePause, (int) this);
     }
 
     /// <summary>
@@ -157,7 +192,7 @@ public sealed class Source : IDisposable
     /// </summary>
     public void Stop()
     {
-        svc.Stop(this);
+        AudioContext.Instance.Call(AL.SourceStop, (int) this);
     }
 
     /// <summary>
@@ -165,7 +200,7 @@ public sealed class Source : IDisposable
     /// </summary>
     public void Rewind()
     {
-        svc.Rewind(this);
+        AudioContext.Instance.Call(AL.SourceRewind, (int) this);
     }
 
     /// <summary>
@@ -183,7 +218,7 @@ public sealed class Source : IDisposable
             Stop();
         }
 
-        svc.Delete(this);
+        AudioContext.Instance.Call(AL.DeleteSource, (int) this);
         Disposed = true;
     }
 

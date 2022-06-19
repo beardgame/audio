@@ -8,8 +8,6 @@ namespace Bearded.Audio;
 /// </summary>
 public sealed class SoundBuffer : IDisposable
 {
-    private readonly IBufferService svc;
-
     /// <summary>
     /// List of OpenAL buffer handles.
     /// </summary>
@@ -26,8 +24,7 @@ public sealed class SoundBuffer : IDisposable
     /// <param name="n">The number of buffers to reserve.</param>
     public SoundBuffer(int n)
     {
-        svc = BufferService.Instance;
-        handles = svc.Generate(n);
+        handles = AudioContext.Instance.Eval(AL.GenBuffers, n);
     }
 
     /// <summary>
@@ -47,7 +44,8 @@ public sealed class SoundBuffer : IDisposable
             throw new ArgumentOutOfRangeException(nameof(index));
         }
 
-        svc.Fill(this[index], format, data, sampleRate);
+        int handle = this[index];
+        AudioContext.Instance.Call(AL.BufferData, handle, format, data, sampleRate);
     }
 
     /// <summary>
@@ -92,7 +90,7 @@ public sealed class SoundBuffer : IDisposable
             return;
         }
 
-        svc.Delete(this);
+        AudioContext.Instance.Call(AL.DeleteBuffers, (int[])this);
 
         Disposed = true;
     }

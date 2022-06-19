@@ -62,39 +62,74 @@ public static class ALListener
 
     public static Vector3 Position
     {
-        get => ListenerService.Instance.GetProperty(ALListener3f.Position);
-        set => ListenerService.Instance.SetProperty(ALListener3f.Position, value);
+        get
+        {
+            AL.GetListener(ALListener3f.Position, out var value);
+            AudioContext.Instance.CheckErrors();
+            return value;
+        }
+        set
+        {
+            Vector3 value1 = value;
+            AudioContext.Instance.Call(() => AL.Listener(ALListener3f.Position, ref value1));
+        }
     }
 
     public static Vector3 Velocity
     {
-        get => ListenerService.Instance.GetProperty(ALListener3f.Velocity);
-        set => ListenerService.Instance.SetProperty(ALListener3f.Velocity, value);
+        get
+        {
+            AL.GetListener(ALListener3f.Velocity, out var value);
+            AudioContext.Instance.CheckErrors();
+            return value;
+        }
+        set
+        {
+            Vector3 value1 = value;
+            AudioContext.Instance.Call(() => AL.Listener(ALListener3f.Velocity, ref value1));
+        }
     }
 
     public static float Gain
     {
-        get => ListenerService.Instance.GetProperty(ALListenerf.Gain);
-        set => ListenerService.Instance.SetProperty(ALListenerf.Gain, value);
+        get
+        {
+            AL.GetListener(ALListenerf.Gain, out var value);
+            AudioContext.Instance.CheckErrors();
+            return value;
+        }
+        set => AudioContext.Instance.Call(AL.Listener, ALListenerf.Gain, value);
     }
 
     public static Vector3 At
     {
         get
         {
-            ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out var at, out _);
+            AL.GetListener(ALListenerfv.Orientation, out var at, out _);
+            AudioContext.Instance.CheckErrors();
             return at;
         }
-        set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, value, Up);
+        set
+        {
+            var at = value;
+            var up = Up;
+            AudioContext.Instance.Call(() => AL.Listener(ALListenerfv.Orientation, ref at, ref up));
+        }
     }
 
     public static Vector3 Up
     {
         get
         {
-            ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out _, out var up);
+            AL.GetListener(ALListenerfv.Orientation, out _, out var up);
+            AudioContext.Instance.CheckErrors();
             return up;
         }
-        set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, At, value);
+        set
+        {
+            var at = At;
+            var up = value;
+            AudioContext.Instance.Call(() => AL.Listener(ALListenerfv.Orientation, ref at, ref up));
+        }
     }
 }
