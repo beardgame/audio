@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/beardgame/audio</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>11</LangVersion>
+    <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
