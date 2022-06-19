@@ -4,7 +4,7 @@
     <RootNamespace>Bearded.Audio</RootNamespace>
     <AssemblyName>Bearded.Audio</AssemblyName>
     <Title>Bearded.Audio</Title>
-    <PackageProjectUrl>https://beardgame.github.io/audio/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/beardgame/audio</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/beardgame/audio/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/beardgame/audio</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
