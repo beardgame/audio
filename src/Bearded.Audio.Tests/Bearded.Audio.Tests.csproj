@@ -4,8 +4,8 @@
     <RootNamespace>Bearded.Audio.Tests</RootNamespace>
     <AssemblyName>Bearded.Audio.Tests</AssemblyName>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>9</LangVersion>
-    <Nullable>warnings</Nullable>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio.Tests\Debug\</OutputPath>

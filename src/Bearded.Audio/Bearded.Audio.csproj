@@ -9,8 +9,8 @@
     <RepositoryUrl>https://github.com/beardgame/audio</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>9</LangVersion>
-    <Nullable>warnings</Nullable>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Bearded.Audio\Debug\</OutputPath>

@@ -1,11 +1,10 @@
 ﻿using OpenTK.Audio.OpenAL;
 
-namespace Bearded.Audio
+namespace Bearded.Audio;
+
+interface IBufferService
 {
-    interface IBufferService
-    {
-        void Delete(int[] handles);
-        void Fill(int handle, ALFormat format, short[] data, int sampleRate);
-        int[] Generate(int n);
-    }
+    void Delete(int[] handles);
+    void Fill(int handle, ALFormat format, short[] data, int sampleRate);
+    int[] Generate(int n);
 }
