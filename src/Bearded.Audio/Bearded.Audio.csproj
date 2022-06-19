@@ -8,7 +8,7 @@
     <PackageLicenseUrl>https://github.com/beardgame/audio/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/beardgame/audio</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>9</LangVersion>
     <Nullable>warnings</Nullable>
   </PropertyGroup>
