@@ -1,101 +1,100 @@
 ﻿using OpenTK.Audio.OpenAL;
 using OpenTK.Mathematics;
 
-namespace Bearded.Audio
+namespace Bearded.Audio;
+
+public static class ALListener
 {
-    public static class ALListener
+    private static IListener? currentListener;
+
+    public static IListener? Get()
     {
-        private static IListener? currentListener;
+        return currentListener;
+    }
 
-        public static IListener? Get()
+    public static void Set(IListener? listener)
+    {
+        if (currentListener != null)
         {
-            return currentListener;
+            currentListener.ListenerUpdated -= updateProperties;
         }
 
-        public static void Set(IListener? listener)
+        currentListener = listener;
+        if (listener != null)
         {
-            if (currentListener != null)
-            {
-                currentListener.ListenerUpdated -= updateProperties;
-            }
+            updateProperties(listener);
+            listener.ListenerUpdated += updateProperties;
+        }
+    }
 
-            currentListener = listener;
-            if (listener != null)
-            {
-                updateProperties(listener);
-                listener.ListenerUpdated += updateProperties;
-            }
+    private static void updateProperties(IListener? reference)
+    {
+        if (currentListener == null || reference != currentListener)
+        {
+            return;
         }
 
-        private static void updateProperties(IListener? reference)
+        if (reference.Position != Position)
         {
-            if (currentListener == null || reference != currentListener)
-            {
-                return;
-            }
-
-            if (reference.Position != Position)
-            {
-                Position = reference.Position;
-            }
-
-            if (reference.Velocity != Velocity)
-            {
-                Velocity = reference.Velocity;
-            }
-
-            if (System.Math.Abs(reference.Gain - Gain) > .01f)
-            {
-                Gain = reference.Gain;
-            }
-
-            if (reference.At != At)
-            {
-                At = reference.At;
-            }
-
-            if (reference.Up != Up)
-            {
-                Up = reference.Up;
-            }
+            Position = reference.Position;
         }
 
-        public static Vector3 Position
+        if (reference.Velocity != Velocity)
         {
-            get => ListenerService.Instance.GetProperty(ALListener3f.Position);
-            set => ListenerService.Instance.SetProperty(ALListener3f.Position, value);
+            Velocity = reference.Velocity;
         }
 
-        public static Vector3 Velocity
+        if (System.Math.Abs(reference.Gain - Gain) > .01f)
         {
-            get => ListenerService.Instance.GetProperty(ALListener3f.Velocity);
-            set => ListenerService.Instance.SetProperty(ALListener3f.Velocity, value);
+            Gain = reference.Gain;
         }
 
-        public static float Gain
+        if (reference.At != At)
         {
-            get => ListenerService.Instance.GetProperty(ALListenerf.Gain);
-            set => ListenerService.Instance.SetProperty(ALListenerf.Gain, value);
+            At = reference.At;
         }
 
-        public static Vector3 At
+        if (reference.Up != Up)
         {
-            get
-            {
-                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out var at, out _);
-                return at;
-            }
-            set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, value, Up);
+            Up = reference.Up;
         }
+    }
 
-        public static Vector3 Up
+    public static Vector3 Position
+    {
+        get => ListenerService.Instance.GetProperty(ALListener3f.Position);
+        set => ListenerService.Instance.SetProperty(ALListener3f.Position, value);
+    }
+
+    public static Vector3 Velocity
+    {
+        get => ListenerService.Instance.GetProperty(ALListener3f.Velocity);
+        set => ListenerService.Instance.SetProperty(ALListener3f.Velocity, value);
+    }
+
+    public static float Gain
+    {
+        get => ListenerService.Instance.GetProperty(ALListenerf.Gain);
+        set => ListenerService.Instance.SetProperty(ALListenerf.Gain, value);
+    }
+
+    public static Vector3 At
+    {
+        get
         {
-            get
-            {
-                ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out _, out var up);
-                return up;
-            }
-            set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, At, value);
+            ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out var at, out _);
+            return at;
         }
+        set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, value, Up);
+    }
+
+    public static Vector3 Up
+    {
+        get
+        {
+            ListenerService.Instance.GetProperty(ALListenerfv.Orientation, out _, out var up);
+            return up;
+        }
+        set => ListenerService.Instance.SetProperty(ALListenerfv.Orientation, At, value);
     }
 }
