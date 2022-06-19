@@ -70,8 +70,8 @@ public static class ALListener
         }
         set
         {
-            Vector3 value1 = value;
-            AudioContext.Instance.Call(() => AL.Listener(ALListener3f.Position, ref value1));
+            var v = value;
+            AudioContext.Instance.Call(() => AL.Listener(ALListener3f.Position, ref v));
         }
     }
 
@@ -85,8 +85,8 @@ public static class ALListener
         }
         set
         {
-            Vector3 value1 = value;
-            AudioContext.Instance.Call(() => AL.Listener(ALListener3f.Velocity, ref value1));
+            var v = value;
+            AudioContext.Instance.Call(() => AL.Listener(ALListener3f.Velocity, ref v));
         }
     }
 
