@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Bearded.Audio
@@ -69,7 +70,7 @@ namespace Bearded.Audio
         /// <summary>
         /// Attempts to get an available source. Returns false if no source could be assigned.
         /// </summary>
-        public bool TryGetSource(out Source source)
+        public bool TryGetSource([NotNullWhen(true)] out Source? source)
         {
             checkNotDisposed();
             ensureSourceAvailableIfPossible();
@@ -126,10 +127,7 @@ namespace Bearded.Audio
         public void ReclaimSource(Source source)
         {
             checkNotDisposed();
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            ArgumentNullException.ThrowIfNull(source);
 
             if (!sources.Contains(source))
             {

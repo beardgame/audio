@@ -10,7 +10,7 @@ namespace Bearded.Audio
     /// </summary>
     public sealed class AudioContext : IDisposable
     {
-        private static AudioContext instance;
+        private static AudioContext? instance;
 
         /// <summary>
         /// Gets the sole AudioContext instance.

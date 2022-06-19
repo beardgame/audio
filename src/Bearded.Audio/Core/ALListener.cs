@@ -5,14 +5,14 @@ namespace Bearded.Audio
 {
     public static class ALListener
     {
-        private static IListener currentListener;
+        private static IListener? currentListener;
 
-        public static IListener Get()
+        public static IListener? Get()
         {
             return currentListener;
         }
 
-        public static void Set(IListener listener)
+        public static void Set(IListener? listener)
         {
             if (currentListener != null)
             {
@@ -20,14 +20,14 @@ namespace Bearded.Audio
             }
 
             currentListener = listener;
-            if (currentListener != null)
+            if (listener != null)
             {
                 updateProperties(listener);
                 listener.ListenerUpdated += updateProperties;
             }
         }
 
-        private static void updateProperties(IListener reference)
+        private static void updateProperties(IListener? reference)
         {
             if (currentListener == null || reference != currentListener)
             {

@@ -146,7 +146,7 @@ namespace Bearded.Audio.Tests
         {
             var instance = SourcePool.CreateInstance(1);
 
-            Action reclaimSource = () => instance.ReclaimSource(null);
+            Action reclaimSource = () => instance.ReclaimSource(null!);
 
             reclaimSource.Should().Throw<ArgumentNullException>();
         }
@@ -156,7 +156,7 @@ namespace Bearded.Audio.Tests
         {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
-            source.Dispose();
+            source!.Dispose();
 
             Action reclaimSource = () => instance.ReclaimSource(source);
 
@@ -179,7 +179,7 @@ namespace Bearded.Audio.Tests
         {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
-            source.Looping = true;
+            source!.Looping = true;
 
             Action reclaimSource = () => instance.ReclaimSource(source);
 
@@ -192,7 +192,7 @@ namespace Bearded.Audio.Tests
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
 
-            instance.ReclaimSource(source);
+            instance.ReclaimSource(source!);
 
             instance.HasAvailableSource.Should().BeTrue();
             instance.TryGetSource(out var availableSource);
@@ -204,7 +204,7 @@ namespace Bearded.Audio.Tests
         {
             var instance = SourcePool.CreateInstance(1);
             instance.TryGetSource(out var source);
-            source.Play();
+            source!.Play();
 
             svcMock.Invocations.Clear();
 
@@ -219,7 +219,7 @@ namespace Bearded.Audio.Tests
             var instance = SourcePool.CreateInstance(2);
             instance.TryGetSource(out var source1);
             instance.TryGetSource(out var source2);
-            source1.Looping = true;
+            source1!.Looping = true;
 
             instance.ReclaimAllFinishedSources();
 
@@ -235,7 +235,7 @@ namespace Bearded.Audio.Tests
             var instance = SourcePool.CreateInstance(2);
             instance.TryGetSource(out var source1);
             instance.TryGetSource(out _);
-            source1.Dispose();
+            source1!.Dispose();
 
             Action reclaimAllFinishedSources = () => instance.ReclaimAllFinishedSources();
 
@@ -248,13 +248,13 @@ namespace Bearded.Audio.Tests
             var instance = SourcePool.CreateInstance(2);
             instance.TryGetSource(out var source1);
             instance.TryGetSource(out var source2);
-            source1.Looping = true;
+            source1!.Looping = true;
 
             svcMock.Invocations.Clear();
 
             instance.ReclaimAllFinishedSources();
 
-            svcMock.Verify(svc => svc.Rewind(source2), Times.Once);
+            svcMock.Verify(svc => svc.Rewind(source2!), Times.Once);
         }
 
         [Fact]
@@ -265,7 +265,7 @@ namespace Bearded.Audio.Tests
 
             instance.Dispose();
 
-            source.Disposed.Should().BeTrue();
+            source!.Disposed.Should().BeTrue();
         }
     }
 }

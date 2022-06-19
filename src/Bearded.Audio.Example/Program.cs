@@ -6,7 +6,7 @@ namespace Bearded.Audio.Example
     static class Program
     {
         // ReSharper disable once InconsistentNaming
-        private static void Main(string[] args)
+        private static void Main()
         {
             // Audio context always has to be initialized before any audio code.
             AudioContext.Initialize();

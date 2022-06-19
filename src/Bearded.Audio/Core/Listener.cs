@@ -95,7 +95,7 @@ namespace Bearded.Audio
         /// <summary>
         /// Occurs when listener updated.
         /// </summary>
-        public event ListenerEventHandler ListenerUpdated;
+        public event ListenerEventHandler? ListenerUpdated;
 
         /// <summary>
         /// Creates a new listener with default parameters.
