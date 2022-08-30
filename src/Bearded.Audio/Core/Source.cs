@@ -57,7 +57,9 @@ public sealed class Source : IDisposable
     private float gain;
     private float pitch;
     private bool looping;
-    private Vector3 position, velocity;
+    private Vector3 position;
+    private bool positionIsRelative;
+    private Vector3 velocity;
 
     /// <summary>
     /// The volume at which the source plays its buffers.
@@ -109,6 +111,19 @@ public sealed class Source : IDisposable
         {
             position = value;
             AudioContext.Instance.Call(() => AL.Source((int) this, ALSource3f.Position, ref position));
+        }
+    }
+
+    /// <summary>
+    /// Whether the position of the source is relative to the listener or not.
+    /// </summary>
+    public bool PositionIsRelative
+    {
+        get => positionIsRelative;
+        set
+        {
+            positionIsRelative = value;
+            AudioContext.Instance.Call(AL.Source, (int) this, ALSourceb.SourceRelative, positionIsRelative);
         }
     }
 
