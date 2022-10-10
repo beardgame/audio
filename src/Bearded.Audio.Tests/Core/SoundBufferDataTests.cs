@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using VerifyXunit;
 using Xunit;
@@ -29,8 +28,8 @@ public sealed class SoundBufferDataTests
         return Verifier.Verify(new
         {
             Buffers = bufferChecksums,
-            Format = soundBufferData.Format,
-            SampleRate = soundBufferData.SampleRate,
+            soundBufferData.Format,
+            soundBufferData.SampleRate,
         }, settings);
     }
 
