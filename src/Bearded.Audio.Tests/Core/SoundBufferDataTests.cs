@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using VerifyXunit;
 using Xunit;
@@ -16,20 +19,29 @@ public sealed class SoundBufferDataTests
     public Task VerifyWavDeserialization(string filename)
     {
         var soundBufferData = SoundBufferData.FromWav($"assets/{filename}.wav");
-        var buffers = soundBufferData.Buffers.Select(toBase64String).ToArray();
+
+        var bufferChecksums = soundBufferData.Buffers
+            .Select(buffer => new { Hash = calculateHash(buffer), Size = buffer.Length })
+            .ToImmutableArray();
 
         var settings = StaticConfig.DefaultVerifySettings;
         settings.UseParameters(filename);
         return Verifier.Verify(new
         {
-            Buffers = buffers,
+            Buffers = bufferChecksums,
             Format = soundBufferData.Format,
             SampleRate = soundBufferData.SampleRate,
         }, settings);
     }
 
-    private static string toBase64String(IEnumerable<short> arr)
+    private static string calculateHash(IEnumerable<short> data)
     {
-        return string.Join(' ', arr.Select(i => Convert.ToBase64String(BitConverter.GetBytes(i))));
+        using var sha256 = SHA256.Create();
+
+        var dataAsBytes = data.SelectMany(BitConverter.GetBytes).ToArray();
+        var dataHashAsBytes = sha256.ComputeHash(dataAsBytes);
+        var dataHashAsHex = dataHashAsBytes.Select(d => d.ToString("x2"));
+        return string.Concat(dataHashAsHex);
     }
+
 }
