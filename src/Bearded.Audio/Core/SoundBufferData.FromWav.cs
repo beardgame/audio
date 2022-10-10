@@ -108,7 +108,7 @@ public sealed partial class SoundBufferData
             var startOffset = i * maxBufferSize * 2;
             var dataPointsRemaining = (data.Length - startOffset) / 2;
             var bufferSize = Math.Min(maxBufferSize, dataPointsRemaining);
-            var buffer = new short[maxBufferSize];
+            var buffer = new short[bufferSize];
             copyAsShorts(data, buffer, bufferSize, startOffset);
             buffers.Add(buffer);
         }
