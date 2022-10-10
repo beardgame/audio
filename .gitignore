@@ -197,3 +197,6 @@ FakesAssemblies/
 
 # Rider files
 .idea/
+
+# Verify results
+*.received.*
