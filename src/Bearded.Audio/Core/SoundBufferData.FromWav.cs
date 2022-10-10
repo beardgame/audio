@@ -96,23 +96,27 @@ public sealed partial class SoundBufferData
 
     private static List<short[]> convertToBuffers(byte[] data)
     {
-        var buffers = new List<short[]>();
-        int count;
-        var i = 0;
-        const int bufferSize = 16384;
+        const int maxBufferSize = 16384;
 
-        while ((count = (Math.Min(data.Length, (i + 1) * bufferSize * 2) - i * bufferSize * 2) / 2) > 0)
+        var dataPointCount = data.Length / 2;
+        var buffersNeeded = dataPointCount / maxBufferSize + (dataPointCount % maxBufferSize == 0 ? 0 : 1);
+
+        var buffers = new List<short[]>();
+
+        for (var i = 0; i < buffersNeeded; i++)
         {
-            var buffer = new short[bufferSize];
-            convertBuffer(data, buffer, count, i * bufferSize * 2);
+            var startOffset = i * maxBufferSize * 2;
+            var dataPointsRemaining = (data.Length - startOffset) / 2;
+            var bufferSize = Math.Min(maxBufferSize, dataPointsRemaining);
+            var buffer = new short[maxBufferSize];
+            copyAsShorts(data, buffer, bufferSize, startOffset);
             buffers.Add(buffer);
-            i++;
         }
 
         return buffers;
     }
 
-    private static void convertBuffer(byte[] inBuffer, short[] outBuffer, int length, int inOffset = 0)
+    private static void copyAsShorts(byte[] inBuffer, short[] outBuffer, int length, int inOffset = 0)
     {
         for (var i = 0; i < length; i++)
         {
