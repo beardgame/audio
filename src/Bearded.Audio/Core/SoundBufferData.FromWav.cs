@@ -96,8 +96,6 @@ public sealed partial class SoundBufferData
 
     private static List<short[]> convertToBuffers(byte[] data)
     {
-        const int maxBufferSize = 16384;
-
         var dataPointCount = data.Length / 2;
         var buffersNeeded = dataPointCount / maxBufferSize + (dataPointCount % maxBufferSize == 0 ? 0 : 1);
 

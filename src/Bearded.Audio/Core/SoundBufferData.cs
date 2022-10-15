@@ -12,6 +12,8 @@ namespace Bearded.Audio;
 [PublicAPI]
 public sealed partial class SoundBufferData
 {
+    private const int maxBufferSize = 16384;
+
     internal IList<short[]> Buffers { get; }
     internal ALFormat Format { get; }
     internal int SampleRate { get; }
