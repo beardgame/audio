@@ -27,5 +27,4 @@
   <ItemGroup>
     <None Include="*.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup />
 </Project>
