@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using NVorbis;
 
 namespace Bearded.Audio;
@@ -25,6 +23,10 @@ sealed class OggReader : IDisposable
 
     public ImmutableArray<short[]> ReadAllRemainingBuffers(int maxBufferSize)
     {
+        if (maxBufferSize <= 0)
+        {
+            throw new ArgumentException("Max buffer size must be positive.", nameof(maxBufferSize));
+        }
         if (Ended)
         {
             return ImmutableArray<short[]>.Empty;
@@ -45,8 +47,7 @@ sealed class OggReader : IDisposable
         var builder = ImmutableArray.CreateBuilder<short[]>((int) totalBuffersNeeded);
         for (var i = 0; i < builder.Capacity; i++)
         {
-            TryReadSingleBuffer(out var buffer, maxBufferSize);
-            builder[i] = buffer!;
+            builder.Add(readSamples(bufferSize));
         }
 
         return builder.ToImmutable();
@@ -65,18 +66,27 @@ sealed class OggReader : IDisposable
             return false;
         }
 
-        Span<float> floatSpan = stackalloc float[largestBufferSizeDivisibleByChannelCount(maxBufferSize)];
+        var bufferSize = largestBufferSizeDivisibleByChannelCount(maxBufferSize);
+        buffer = readSamples(bufferSize);
+
+        return true;
+    }
+
+    private short[] readSamples(int maxSampleCount)
+    {
+        const short maxSafeValue = 32767;
+
+        Span<float> floatSpan = stackalloc float[maxSampleCount];
 
         var numSamplesRead = reader.ReadSamples(floatSpan);
 
-        buffer = new short[numSamplesRead];
-        const short maxSafeValue = 32767;
+        var buffer = new short[numSamplesRead];
         for (var i = 0; i < buffer.Length; i++)
         {
             buffer[i] = (short) (maxSafeValue * floatSpan[i]);
         }
 
-        return true;
+        return buffer;
     }
 
     private int largestBufferSizeDivisibleByChannelCount(int maxBufferSize)
