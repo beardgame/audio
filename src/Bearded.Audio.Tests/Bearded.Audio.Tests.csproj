@@ -25,14 +25,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Update="assets\pcm_11025hz_8bit_mono.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\pcm_8000hz_8bit_stereo.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\44100hz_mono.ogg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="assets/*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
