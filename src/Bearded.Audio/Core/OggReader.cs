@@ -8,7 +8,7 @@ using NVorbis;
 
 namespace Bearded.Audio;
 
-sealed class OggStream : IDisposable
+sealed class OggReader : IDisposable
 {
     private readonly VorbisReader reader;
 
@@ -18,12 +18,12 @@ sealed class OggStream : IDisposable
 
     public bool Ended => reader.IsEndOfStream;
 
-    private OggStream(VorbisReader reader)
+    private OggReader(VorbisReader reader)
     {
         this.reader = reader;
     }
 
-    public IList<short[]> ReadAllRemainingBuffers(int maxBufferSize)
+    public ImmutableArray<short[]> ReadAllRemainingBuffers(int maxBufferSize)
     {
         if (Ended)
         {
@@ -32,20 +32,24 @@ sealed class OggStream : IDisposable
 
         var bufferSize = largestBufferSizeDivisibleByChannelCount(maxBufferSize);
         var totalSampleCountRemaining = reader.TotalSamples - reader.SamplePosition;
-        var fullBuffers = totalSampleCountRemaining / bufferSize;
-        if (fullBuffers > int.MaxValue)
+        var fullBuffersNeeded = totalSampleCountRemaining / bufferSize;
+        var partialBuffersNeeded = totalSampleCountRemaining % bufferSize > 0 ? 1 : 0;
+        var totalBuffersNeeded = fullBuffersNeeded + partialBuffersNeeded;
+
+        if (totalBuffersNeeded > int.MaxValue)
         {
             throw new InvalidOperationException(
                 $"Cannot read a stream with more than {int.MaxValue} buffers remaining.");
         }
-        var partialBuffers = totalSampleCountRemaining % bufferSize > 0 ? 1 : 0;
-        var totalBuffersNeeded = (int) fullBuffers + partialBuffers;
 
-        return Enumerable.Range(0, totalBuffersNeeded).Select(_ =>
+        var builder = ImmutableArray.CreateBuilder<short[]>((int) totalBuffersNeeded);
+        for (var i = 0; i < builder.Capacity; i++)
         {
             TryReadSingleBuffer(out var buffer, maxBufferSize);
-            return buffer!;
-        }).ToImmutableArray();
+            builder[i] = buffer!;
+        }
+
+        return builder.ToImmutable();
     }
 
     public bool TryReadSingleBuffer([NotNullWhen(true)] out short[]? buffer, int maxBufferSize)
@@ -55,21 +59,21 @@ sealed class OggStream : IDisposable
             throw new ArgumentException("Max buffer size must be positive.", nameof(maxBufferSize));
         }
 
-        if (reader.IsEndOfStream)
+        if (Ended)
         {
             buffer = default;
             return false;
         }
 
-        var floatBuffer = new float[largestBufferSizeDivisibleByChannelCount(maxBufferSize)];
+        Span<float> floatSpan = stackalloc float[largestBufferSizeDivisibleByChannelCount(maxBufferSize)];
 
-        var numSamplesRead = reader.ReadSamples(new Span<float>(floatBuffer));
+        var numSamplesRead = reader.ReadSamples(floatSpan);
 
         buffer = new short[numSamplesRead];
         const short maxSafeValue = 32767;
         for (var i = 0; i < buffer.Length; i++)
         {
-            buffer[i] = (short) (maxSafeValue * floatBuffer[i]);
+            buffer[i] = (short) (maxSafeValue * floatSpan[i]);
         }
 
         return true;
@@ -85,8 +89,8 @@ sealed class OggStream : IDisposable
         reader.Dispose();
     }
 
-    public static OggStream FromFile(Stream file)
+    public static OggReader FromStream(Stream file)
     {
-        return new OggStream(new VorbisReader(file) { ClipSamples = true });
+        return new OggReader(new VorbisReader(file) { ClipSamples = true });
     }
 }
