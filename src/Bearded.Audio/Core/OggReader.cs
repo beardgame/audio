@@ -9,6 +9,7 @@ namespace Bearded.Audio;
 sealed class OggReader : IDisposable
 {
     private readonly VorbisReader reader;
+    private float[] readBuffer = Array.Empty<float>();
 
     public int ChannelCount => reader.Channels;
 
@@ -50,7 +51,7 @@ sealed class OggReader : IDisposable
             builder.Add(readSamples(bufferSize));
         }
 
-        return builder.ToImmutable();
+        return builder.MoveToImmutable();
     }
 
     public bool TryReadSingleBuffer([NotNullWhen(true)] out short[]? buffer, int maxBufferSize)
@@ -72,21 +73,30 @@ sealed class OggReader : IDisposable
         return true;
     }
 
-    private short[] readSamples(int maxSampleCount)
+    private short[] readSamples(int sampleCount)
     {
         const short maxSafeValue = 32767;
 
-        Span<float> floatSpan = stackalloc float[maxSampleCount];
+        ensureReadBufferCapacity(sampleCount);
+        var readSpan = new Span<float>(readBuffer, 0, sampleCount);
 
-        var numSamplesRead = reader.ReadSamples(floatSpan);
+        var readSampleCount = reader.ReadSamples(readSpan);
 
-        var buffer = new short[numSamplesRead];
+        var buffer = new short[readSampleCount];
         for (var i = 0; i < buffer.Length; i++)
         {
-            buffer[i] = (short) (maxSafeValue * floatSpan[i]);
+            buffer[i] = (short) (maxSafeValue * readSpan[i]);
         }
 
         return buffer;
+    }
+
+    private void ensureReadBufferCapacity(int capacity)
+    {
+        if (readBuffer.Length < capacity)
+        {
+            readBuffer = new float[capacity];
+        }
     }
 
     private int largestBufferSizeDivisibleByChannelCount(int maxBufferSize)
