@@ -185,6 +185,11 @@ public sealed class Source : IDisposable
     /// </summary>
     public void DequeueProcessedBuffers()
     {
+        if (ProcessedBuffers == 0)
+        {
+            return;
+        }
+
         AudioContext.Instance.Eval(AL.SourceUnqueueBuffers, (int) this, ProcessedBuffers);
     }
 
