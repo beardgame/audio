@@ -24,7 +24,4 @@
     <PackageReference Include="NVorbis" Version="0.10.5" />
     <PackageReference Include="OpenTK.OpenAL" Version="4.7.5" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="*.config" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
 </Project>
