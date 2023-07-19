@@ -21,7 +21,8 @@ public sealed class Source : IDisposable
     /// <summary>
     /// The current state of this source.
     /// </summary>
-    public ALSourceState State => AudioContext.Instance.Eval(AL.GetSourceState, (int) this);
+    public ALSourceState State =>
+        (ALSourceState) AudioContext.Instance.Eval(AL.GetSource, (int) this, ALGetSourcei.SourceState);
 
     /// <summary>
     /// The amount of buffers the source has already played.
