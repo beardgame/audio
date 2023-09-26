@@ -11,6 +11,15 @@ updates:
       prefix: "⬆"
     assignees:
       - "tomrijnbeek"
+    groups:
+      # Always update all OpenTK dependencies together to keep them in sync
+      opentk:
+        patterns:
+          - "OpenTK*"
+      # Always update all xUnit dependencies together since they always release together
+      xunit:
+        patterns:
+          - "xunit*"
 
   - package-ecosystem: "github-actions"
     # Workflow files stored in the
