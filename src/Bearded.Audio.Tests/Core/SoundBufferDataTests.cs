@@ -8,7 +8,6 @@ using Xunit;
 
 namespace Bearded.Audio.Tests;
 
-[UsesVerify]
 public sealed class SoundBufferDataTests
 {
     [Theory]
