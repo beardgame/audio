@@ -17,7 +17,7 @@
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageReference Include="NVorbis" Version="0.10.5" />
-    <PackageReference Include="Verify.Xunit" Version="25.0.4" />
+    <PackageReference Include="Verify.Xunit" Version="25.3.0" />
     <PackageReference Include="xunit" Version="2.8.1" />
     <ProjectReference Include="..\Bearded.Audio\Bearded.Audio.csproj">
       <Project>{da11432a-23eb-4719-adbb-137c7441ae47}</Project>
