@@ -20,7 +20,7 @@
     <DocumentationFile>..\..\bin\Bearded.Audio\Release\Bearded.Audio.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="NVorbis" Version="0.10.5" />
     <PackageReference Include="OpenTK.Audio.OpenAL" Version="4.8.2" />
   </ItemGroup>
