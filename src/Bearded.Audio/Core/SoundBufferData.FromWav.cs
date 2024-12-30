@@ -26,18 +26,18 @@ public sealed partial class SoundBufferData
     {
         using var reader = new BinaryReader(file);
 
-        readFileHeader(reader, out var numChannels, out var sampleRate, out var bitsPerSample);
+        readFileHeader(reader, out var numChannels, out var sampleRate, out var bitsPerSample, out var dataSize);
 
         var alFormat = getSoundFormat(numChannels, bitsPerSample);
 
-        var data = reader.ReadBytes((int) reader.BaseStream.Length);
+        var data = reader.ReadBytes(dataSize);
         var buffers = convertToBuffers(data);
 
         return new SoundBufferData(buffers, alFormat, sampleRate);
     }
 
     private static void readFileHeader(
-        BinaryReader reader, out int numChannels, out int sampleRate, out int bitsPerSample)
+        BinaryReader reader, out short numChannels, out int sampleRate, out short bitsPerSample, out int dataSize)
     {
         // RIFF header
         var signature = new string(reader.ReadChars(4));
@@ -54,35 +54,55 @@ public sealed partial class SoundBufferData
             throw new NotSupportedException("Specified stream is not a wave file.");
         }
 
-        // WAVE header
-        var formatSignature = new string(reader.ReadChars(4));
-        if (formatSignature != "fmt ")
+        numChannels = 0;
+        sampleRate = 0;
+        bitsPerSample = 0;
+        dataSize = 0;
+
+        while (reader.BaseStream.Position < reader.BaseStream.Length)
         {
-            throw new NotSupportedException("Specified wave file is not supported.");
+            var chunkId = new string(reader.ReadChars(4));
+            var chunkSize = reader.ReadInt32();
+
+            if (chunkId == "fmt ")
+            {
+                reader.ReadInt16(); // audioFormat (unused)
+
+                numChannels = reader.ReadInt16();
+                sampleRate = reader.ReadInt32();
+                reader.ReadInt32(); // byteRate (unused)
+                reader.ReadInt16(); // blockAlign (unused)
+                bitsPerSample = reader.ReadInt16();
+
+                if (bitsPerSample != 8 && bitsPerSample != 16 && bitsPerSample != 24 && bitsPerSample != 32)
+                {
+                    throw new NotSupportedException($"Unsupported bits per sample: {bitsPerSample}.");
+                }
+
+                // We have read 16 bytes so far. If the format chunk size is more than 16 bytes, make sure we move the
+                // reader cursor to the end of the format chunk size.
+                if (chunkSize > 16)
+                {
+                    reader.ReadBytes(chunkSize - 16);
+                }
+
+                continue;
+            }
+
+            if (chunkId == "data")
+            {
+                dataSize = chunkSize;
+                break;
+            }
+
+            // Unknown chunk, skip it
+            reader.ReadBytes(chunkSize);
         }
 
-        var formatChunkSize = reader.ReadInt32();
-        reader.ReadInt16(); // audioFormat (unused)
-        numChannels = reader.ReadInt16();
-        sampleRate = reader.ReadInt32();
-        reader.ReadInt32(); // byteRate (unused)
-        reader.ReadInt16(); // blockAlign (unused)
-        bitsPerSample = reader.ReadInt16();
-
-        // We have read 16 bytes so far. If the format chunk size is more than 16 bytes, make sure we move the reader
-        // cursor to the end of the format chunk size.
-        if (formatChunkSize > 16)
+        if (dataSize == 0)
         {
-            reader.ReadBytes(formatChunkSize - 16);
+            throw new NotSupportedException("No data chunk found.");
         }
-
-        var dataSignature = new string(reader.ReadChars(4));
-        if (dataSignature != "data")
-        {
-            throw new NotSupportedException("Only uncompressed wave files are supported.");
-        }
-
-        reader.ReadInt32(); // dataChunkSize (unused)
     }
 
     private static ALFormat getSoundFormat(int channels, int bits) => (channels, bits) switch
